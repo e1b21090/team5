@@ -30,17 +30,26 @@ public class JinroController {
     return "entry";
   }
 
+  @GetMapping("/rules")
+  public String rules() {
+    return "rules";
+  }
+
   @GetMapping("/game")
   public String game(Principal prin, ModelMap model) {
     Game game = new Game();
     int num;
     num = game.DrawGame();
     Roles roles = rolesMapper.selectRoles(num);
-    userinfoMapper.updateUserInfo(roles.getName(),prin.getName());
+    userinfoMapper.updateUserInfo(roles.getName(), prin.getName());
     Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
     rolesMapper.updateUserInfo(num);
     model.addAttribute("userinfo", userinfo);
     return "game";
   }
 
+  @GetMapping("fin")
+  public String fin() {
+    return "entry.html";
+  }
 }
