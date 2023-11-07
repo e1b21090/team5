@@ -19,4 +19,10 @@ public class JinroController {
     return "entry";
   }
 
+  @GetMapping("/game")
+  public String game() {
+    
+    return "game";
+  }
+
 }
