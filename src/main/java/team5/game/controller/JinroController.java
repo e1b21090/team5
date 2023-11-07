@@ -31,12 +31,15 @@ public class JinroController {
   }
 
   @GetMapping("/game")
-  public String game(Principal prin) {
+  public String game(Principal prin, ModelMap model) {
     Game game = new Game();
     int num;
     num = game.DrawGame();
     Roles roles = rolesMapper.selectRoles(num);
     userinfoMapper.updateUserInfo(roles.getName(),prin.getName());
+    Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
+    rolesMapper.updateUserInfo(num);
+    model.addAttribute("userinfo", userinfo);
     return "game";
   }
 
