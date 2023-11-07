@@ -7,5 +7,5 @@ CREATE TABLE roles (
 CREATE TABLE userinfo (
     id IDENTITY,
     username VARCHAR NOT NULL,
-    role_id INTEGER
+    role VARCHAR
 );
