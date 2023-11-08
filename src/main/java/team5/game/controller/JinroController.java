@@ -55,8 +55,4 @@ public class JinroController {
     return "game";
   }
 
-  @GetMapping("fin")
-  public String fin() {
-    return "entry.html";
-  }
 }
