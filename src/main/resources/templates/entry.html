@@ -4,15 +4,22 @@
 <head>
   <meta charset="utf-8">
   <title>人狼ゲーム</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 
 <body>
-  <h1>Hello! <span sec:authentication="name" /></h1>
-  <p><a href="/game">ワンナイト人狼スタート</a></p>
-  <div>
-    <a href="/rules">ルール</a>
+  <div class="centered">
+    <h1 style="color: darkorange;">ワンナイト人狼</h1>
+    <h2 style="color: mintcream;">ようこそ！ <span sec:authentication="name" /></h2>
+    <p>
+      <a href="/game" class="button">スタート</a>
+    </p>
+    <p>
+      <a href="/rules" class="button">ルール</a>
+    </p>
+    <p>
+      <a href="/logout" class="button">ログアウト</a>
+    </p>
   </div>
-  <a href="/logout">ログアウト</a>
-</body>
 
 </html>
