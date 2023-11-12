@@ -51,6 +51,18 @@ public class JinroController {
     userinfoMapper.updateUserInfo(roles.getName(), prin.getName());
     Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
     rolesMapper.updateUserInfo(num);
+    if(userinfo.getRole().equals("人狼")){
+      String jinro = userinfoMapper.selectJinro(prin.getName());
+      model.addAttribute("jinro", jinro);
+    }
+    if(userinfo.getRole().equals("占い師")){
+      ArrayList<Userinfo> uranai = userinfoMapper.selectTarget(prin.getName());
+      model.addAttribute("uranai", uranai);
+    }
+    if(userinfo.getRole().equals("怪盗")){
+      ArrayList<Userinfo> kaito = userinfoMapper.selectTarget(prin.getName());
+      model.addAttribute("kaito", kaito);
+    }
     model.addAttribute("userinfo", userinfo);
     return "game";
   }
