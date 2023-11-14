@@ -7,8 +7,34 @@
 </head>
 
 <body>
-  <h1><span sec:authentication="name" />さんは[[${userinfo.role}]]</h1>
-  <p></p>
+  <h1><span sec:authentication="name" />さんは[[${userinfo.role}]]です</h1>
+  <div th:if="${jinro}">
+    <h2>もう一人の人狼は[[${jinro}]]です</h2>
+  </div>
+  <div th:if="${uranai}">
+    <h3>占い対象</h3>
+    <div th:each="uranai:${uranai}">
+      <ul>
+        <li><a th:href="@{/uranai(target=${uranai.username})}">[[${uranai.username}]]</a></li>
+      </ul>
+    </div>
+  </div>
+  <div th:if="${predictTarget}">
+    <h3>占い結果</h3>
+    <p>[[${predictTarget.username}]]は[[${predictTarget.role}]]です</p>
+  </div>
+  <div th:if="${kaito}">
+    <h3>役職を盗む対象</h3>
+    <div th:each="kaito:${kaito}">
+      <ul>
+        <li><a th:href="@{/kaito(target=${kaito.username})}">[[${kaito.username}]]</a></li>
+      </ul>
+    </div>
+  </div>
+  <div th:if="${stealTarget}">
+    <h3>盗んだ役職</h3>
+    <p>[[${stealTarget.role}]]</p>
+  </div>
   <div>
     <a href="/entry">もどる</a>
   </div>
