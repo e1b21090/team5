@@ -19,7 +19,7 @@ public interface UserinfoMapper {
   @Select("SELECT * FROM userinfo WHERE username != #{username}")
   ArrayList<Userinfo> selectTarget(String username);
 
-  @Select("SELECT username FROM userinfo WHERE role is not null")
+  @Select("SELECT username FROM userinfo WHERE role != null")
   ArrayList<String> selectNotnullUses();
 
   @Update("UPDATE userinfo SET role = #{role} WHERE username = #{username}")

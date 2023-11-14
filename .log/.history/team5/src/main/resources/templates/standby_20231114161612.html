@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>人狼ゲーム</title>
+  <script>
+    window.onload = function () {
+        var sse = new EventSource('/standbyroom');
+        sse.onmessage = function (event) {
+            console.log("sse.onmessage");
+            console.log(event.data);
+            var userList = JSON.parse(event.data);
+            console.log(userList);
+        }
+    }
+  </script>
+</head>
+
+<body>
+  <div th:each="user:${userList}">
+    <ul id="userList">
+      <li>[[${user}]]</li>
+    </ul>
+  </div>
+  <div>
+    <a href="/entry">もどる</a>
+  </div>
+
+
+</body>
+
+</html>

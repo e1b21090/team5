@@ -18,7 +18,6 @@ import team5.game.model.RolesMapper;
 import team5.game.model.Userinfo;
 import team5.game.model.UserinfoMapper;
 import java.util.Set;
-import team5.game.service.AsyncStandbyRoom;
 
 @Controller
 public class JinroController {
@@ -32,9 +31,6 @@ public class JinroController {
   @Autowired
   private RolesMapper rolesMapper;
 
-  @Autowired
-  private AsyncStandbyRoom asyncStandbyRoom;
-
   @GetMapping("/entry")
   public String entry() {
     return "entry";
@@ -46,18 +42,6 @@ public class JinroController {
   }
 
   @GetMapping("/game")
-  public String standby() {
-    return "game";
-  }
-
-  @GetMapping("/standbyroom")
-  public SseEmitter standbyroom() {
-    final SseEmitter emitter = new SseEmitter();
-    this.asyncStandbyRoom.standby(emitter);
-    return emitter;
-  }
-
-  @GetMapping("/standby")
   public String game(Principal prin, ModelMap model) {
     Game game = new Game();
     int num = game.drawGame(uniqueNumbers);
@@ -80,7 +64,7 @@ public class JinroController {
       model.addAttribute("kaito", kaito);
     }
     model.addAttribute("userinfo", userinfo);
-    return "standby";
+    return "game";
   }
 
 }

@@ -45,19 +45,14 @@ public class JinroController {
     return "rules";
   }
 
-  @GetMapping("/game")
-  public String standby() {
-    return "game";
-  }
-
-  @GetMapping("/standbyroom")
-  public SseEmitter standbyroom() {
+  @GetMapping("/standby")
+  public SseEmitter standby() {
     final SseEmitter emitter = new SseEmitter();
     this.asyncStandbyRoom.standby(emitter);
     return emitter;
   }
 
-  @GetMapping("/standby")
+  @GetMapping("/game")
   public String game(Principal prin, ModelMap model) {
     Game game = new Game();
     int num = game.drawGame(uniqueNumbers);
@@ -80,7 +75,7 @@ public class JinroController {
       model.addAttribute("kaito", kaito);
     }
     model.addAttribute("userinfo", userinfo);
-    return "standby";
+    return "game";
   }
 
 }
