@@ -13,22 +13,16 @@
             var userList = JSON.parse(event.data);
             var usertable="";
             for(var i=0;i<userList.length;i++){
-                usertable += "<ul><li>"+userList[i]+"</li></ul>";
+                usertable += "<li>"+userList[i]+"</li>";
             }
-            console.log(userList);
-            var tbody = document.getElementById("userList");
-            tbody.innerHTML = usertable;
+            document.getElementById("userList").innerHTML = usertable;
         }
     }
   </script>
 </head>
 
 <body>
-    <tbody id = "userList">
-        <div th:each="user:${userList}">
-            [[${user}]]
-        </div>
-    </tbody>
+  <ul id = "userList"></ul>
   <div>
     <a href="/entry">もどる</a>
   </div>
