@@ -1,7 +1,5 @@
 package team5.game.service;
 
-import java.sql.Time;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -26,11 +24,12 @@ public class AsyncStandbyRoom {
     private UserinfoMapper userinfoMapper;
 
     @Async
-    public boolean standby(SseEmitter emitter){
+    public void standby(SseEmitter emitter){
         try {
             while(true){
                 ArrayList<String> joinUserList = userinfoMapper.selectNotnullUses();
                 emitter.send(joinUserList);
+                logger.info("joinUserList:" + joinUserList);
                 TimeUnit.MILLISECONDS.sleep(500);
                 if(joinUserList.size() == 4){
                     max=true;
@@ -42,6 +41,5 @@ public class AsyncStandbyRoom {
         }finally{
             emitter.complete();
         }
-        return max;
     }  
 }
