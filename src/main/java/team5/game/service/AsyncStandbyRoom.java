@@ -18,7 +18,7 @@ import team5.game.model.UserinfoMapper;
 @Service
 public class AsyncStandbyRoom {
 
-    boolean max = false;
+    private boolean max = false;
 
     private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 
@@ -26,11 +26,12 @@ public class AsyncStandbyRoom {
     private UserinfoMapper userinfoMapper;
 
     @Async
-    public boolean standby(SseEmitter emitter){
+    public void standby(SseEmitter emitter){
         try {
             while(true){
                 ArrayList<String> joinUserList = userinfoMapper.selectNotnullUses();
                 emitter.send(joinUserList);
+                logger.info("joinUserList:"+joinUserList);
                 TimeUnit.MILLISECONDS.sleep(500);
                 if(joinUserList.size() == 4){
                     max=true;
@@ -42,6 +43,5 @@ public class AsyncStandbyRoom {
         }finally{
             emitter.complete();
         }
-        return max;
     }  
 }
