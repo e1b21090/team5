@@ -10,8 +10,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import org.springframework.web.bind.support.SessionStatus;
 import team5.game.model.Game;
 import team5.game.model.Roles;
 import team5.game.model.RolesMapper;
@@ -21,6 +23,7 @@ import java.util.Set;
 import team5.game.service.AsyncStandbyRoom;
 
 @Controller
+@SessionAttributes("userinfo")
 public class JinroController {
 
   // 既に生成された数値を格納
@@ -60,28 +63,30 @@ public class JinroController {
   }
 
   @GetMapping("/standby")
-  public String standby(Principal prin, ModelMap model) {
-    Game game = new Game();
-    int num = game.drawGame(uniqueNumbers);
-    uniqueNumbers.add(num); // 数値の重複を防ぐためSetにランダム生成した値を記憶
+  public String standby(Principal prin, ModelMap model, SessionStatus SessionStatus) {
+    if (!model.containsAttribute("userinfo")) {
+      Game game = new Game();
+      int num = game.drawGame(uniqueNumbers);
+      uniqueNumbers.add(num); // 数値の重複を防ぐためSetにランダム生成した値を記憶
 
-    Roles roles = rolesMapper.selectRoles(num);
-    userinfoMapper.updateUserInfo(roles.getName(), prin.getName());
-    Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
-    rolesMapper.updateUserInfo(num);
-    if (userinfo.getRole().equals("人狼")) {
-      String jinro = userinfoMapper.selectJinro(prin.getName());
-      model.addAttribute("jinro", jinro);
+      Roles roles = rolesMapper.selectRoles(num);
+      userinfoMapper.updateUserInfo(roles.getName(), prin.getName());
+      Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
+      rolesMapper.updateUserInfo(num);
+      if (userinfo.getRole().equals("人狼")) {
+        String jinro = userinfoMapper.selectJinro(prin.getName());
+        model.addAttribute("jinro", jinro);
+      }
+      if (userinfo.getRole().equals("占い師")) {
+        ArrayList<Userinfo> uranai = userinfoMapper.selectTarget(prin.getName());
+        model.addAttribute("uranai", uranai);
+      }
+      if (userinfo.getRole().equals("怪盗")) {
+        ArrayList<Userinfo> kaito = userinfoMapper.selectTarget(prin.getName());
+        model.addAttribute("kaito", kaito);
+      }
+      model.addAttribute("userinfo", userinfo);
     }
-    if (userinfo.getRole().equals("占い師")) {
-      ArrayList<Userinfo> uranai = userinfoMapper.selectTarget(prin.getName());
-      model.addAttribute("uranai", uranai);
-    }
-    if (userinfo.getRole().equals("怪盗")) {
-      ArrayList<Userinfo> kaito = userinfoMapper.selectTarget(prin.getName());
-      model.addAttribute("kaito", kaito);
-    }
-    model.addAttribute("userinfo", userinfo);
     return "standby";
   }
 
