@@ -4,15 +4,17 @@
 <head>
   <meta charset="utf-8">
   <title>人狼ゲーム</title>
+  <link rel="stylesheet" type="text/css" href="style_g.css">
 </head>
 
 <body>
-  <p>game.htmlに移動OK</p>
-  <!-- <h1><span sec:authentication="name" />さんは[[${userinfo.role}]]です</h1>
+  <h1 style="color: mintcream;"><span sec:authentication="name" />さんは[[${userinfo.role}]]です</h1>
   <div th:if="${jinro}">
+    <p><img src='werewolf2.JPG' width="200px" height="200px"></p>
     <h2>もう一人の人狼は[[${jinro}]]です</h2>
   </div>
   <div th:if="${uranai}">
+    <p><img src='seer.JPG' width="200px" height="200px"></p>
     <h3>占い対象</h3>
     <div th:each="uranai:${uranai}">
       <ul>
@@ -25,6 +27,7 @@
     <p>[[${predictTarget.username}]]は[[${predictTarget.role}]]です</p>
   </div>
   <div th:if="${kaito}">
+    <p><img src='thief.JPG' width="200px" height="200px"></p>
     <h3>役職を盗む対象</h3>
     <div th:each="kaito:${kaito}">
       <ul>
@@ -36,9 +39,12 @@
     <h3>盗んだ役職</h3>
     <p>[[${stealTarget.role}]]</p>
   </div>
+  <div th:if="${null}">
+    <p><img src='villager.JPG' width="200px" height="200px"></p>
+  </div>
   <div>
-    <a href="/entry">もどる</a>
-  </div> -->
+    <a href="/entry" class="button">もどる</a>
+  </div>
 
 
 </body>
