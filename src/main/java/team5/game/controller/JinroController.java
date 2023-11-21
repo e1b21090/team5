@@ -51,6 +51,24 @@ public class JinroController {
   @GetMapping("/game")
   public String game(Principal prin, ModelMap model) {
     Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
+
+    if (userinfo.getRole().equals("人狼")) {
+      String jinro = userinfoMapper.selectJinro(prin.getName());
+      model.addAttribute("jinro", jinro);
+    }
+    if (userinfo.getRole().equals("占い師")) {
+      ArrayList<Userinfo> uranai = userinfoMapper.selectTarget(prin.getName());
+      model.addAttribute("uranai", uranai);
+    }
+    if (userinfo.getRole().equals("怪盗")) {
+      ArrayList<Userinfo> kaito = userinfoMapper.selectTarget(prin.getName());
+      model.addAttribute("kaito", kaito);
+    }
+    if (userinfo.getRole().equals("市民")) {
+      ArrayList<Userinfo> simin = userinfoMapper.selectTarget(prin.getName());
+      model.addAttribute("simin", simin);
+    }
+
     model.addAttribute("userinfo", userinfo);
     return "game";
   }
@@ -73,18 +91,7 @@ public class JinroController {
       userinfoMapper.updateUserInfo(roles.getName(), prin.getName());
       Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
       rolesMapper.updateUserInfo(num);
-      if (userinfo.getRole().equals("人狼")) {
-        String jinro = userinfoMapper.selectJinro(prin.getName());
-        model.addAttribute("jinro", jinro);
-      }
-      if (userinfo.getRole().equals("占い師")) {
-        ArrayList<Userinfo> uranai = userinfoMapper.selectTarget(prin.getName());
-        model.addAttribute("uranai", uranai);
-      }
-      if (userinfo.getRole().equals("怪盗")) {
-        ArrayList<Userinfo> kaito = userinfoMapper.selectTarget(prin.getName());
-        model.addAttribute("kaito", kaito);
-      }
+
       model.addAttribute("userinfo", userinfo);
     }
     return "standby";
