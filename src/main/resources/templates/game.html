@@ -9,9 +9,9 @@
 
 <body>
   <h1 style="color: mintcream;"><span sec:authentication="name" />さんは[[${userinfo.role}]]です</h1>
-  <div th:if="${jinro}">
+  <div th:if="${isJinro}">
     <img src='werewolf2.JPG' width="200px" height="200px" alt="人狼" />
-    <h2>もう一人の人狼は[[${jinro}]]です</h2>
+    <h2 th:if="${jinro}">もう一人の人狼は[[${jinro}]]です</h2>
   </div>
   <div th:if="${uranai}">
     <img src='seer.JPG' width="200px" height="200px" alt="占い師" />
@@ -43,9 +43,8 @@
     <img src='villager.JPG' width="200px" height="200px" alt="市民" />
   </div>
   <div>
-    <a href="/entry" class="button">もどる</a>
+  <a href="/entry" class="button">もどる</a>
   </div>
-
 
 </body>
 
