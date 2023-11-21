@@ -31,9 +31,9 @@ public class GameProgressionController {
         }else{
             Userinfo predictTarget = userinfoMapper.selectUserinfo(target);
             model.addAttribute("predictTarget", predictTarget);
+            Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
+            model.addAttribute("userinfo", userinfo);
         }
-        Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
-        model.addAttribute("userinfo", userinfo);
         return "game";
     }
 

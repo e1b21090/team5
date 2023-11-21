@@ -29,10 +29,6 @@
     <h3>占い結果</h3>
     <p>[[${predictTarget.username}]]は[[${predictTarget.role}]]です</p>
   </div>
-  <div th:if="${graveyard}">
-    <h3>占い結果</h3>
-    <p>墓地の役職は[[${graveyard[0].name}]]と[[${graveyard[1].name}]]です</p>
-  </div>
   <div th:if="${kaito}">
     <img src='thief.JPG' width="200px" height="200px" alt="怪盗" />
     <h3>役職を盗む対象</h3>

@@ -1,9 +1,6 @@
 package team5.game.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
-
-import javax.management.relation.Role;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +10,6 @@ import team5.game.model.RolesMapper;
 import team5.game.model.UserinfoMapper;
 import org.springframework.ui.ModelMap;
 import team5.game.model.Userinfo;
-import team5.game.model.Roles;
 
 @Controller
 public class GameProgressionController {
@@ -25,13 +21,8 @@ public class GameProgressionController {
 
     @GetMapping("/uranai")
     public String soothsayer(@RequestParam("target") String target, ModelMap model, Principal prin){
-        if(target.equals("graveyard")){
-            ArrayList<Roles> graveyard = rolesMapper.selectGraveyard();
-            model.addAttribute("graveyard", graveyard);
-        }else{
-            Userinfo predictTarget = userinfoMapper.selectUserinfo(target);
-            model.addAttribute("predictTarget", predictTarget);
-        }
+        Userinfo predictTarget = userinfoMapper.selectUserinfo(target);
+        model.addAttribute("predictTarget", predictTarget);
         Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
         model.addAttribute("userinfo", userinfo);
         return "game";
