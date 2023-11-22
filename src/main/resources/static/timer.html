@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/schema/security">
+
+<head>
+  <meta charset="utf-8">
+  <title>SpringBoot Sample5-6-1</title>
+  <script>
+    window.onload = function () {
+      var sse = new EventSource('/timer/seconds');
+      sse.onmessage = function (event) {
+        console.log(event.data);
+        document.getElementById("p1").textContent = event.data;
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <p id="p1"></p>
+</body>
+
+</html>

@@ -3,8 +3,6 @@ package team5.game.controller;
 import java.security.Principal;
 import java.util.ArrayList;
 
-import javax.management.relation.Role;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,33 +15,33 @@ import team5.game.model.Roles;
 
 @Controller
 public class GameProgressionController {
-    @Autowired
-    private UserinfoMapper userinfoMapper;
+  @Autowired
+  private UserinfoMapper userinfoMapper;
 
-    @Autowired
-    private RolesMapper rolesMapper;
+  @Autowired
+  private RolesMapper rolesMapper;
 
-    @GetMapping("/uranai")
-    public String soothsayer(@RequestParam("target") String target, ModelMap model, Principal prin){
-        if(target.equals("graveyard")){
-            ArrayList<Roles> graveyard = rolesMapper.selectGraveyard();
-            model.addAttribute("graveyard", graveyard);
-        }else{
-            Userinfo predictTarget = userinfoMapper.selectUserinfo(target);
-            model.addAttribute("predictTarget", predictTarget);
-        }
-        Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
-        model.addAttribute("userinfo", userinfo);
-        return "game";
+  @GetMapping("/uranai")
+  public String soothsayer(@RequestParam("target") String target, ModelMap model, Principal prin) {
+    if (target.equals("graveyard")) {
+      ArrayList<Roles> graveyard = rolesMapper.selectGraveyard();
+      model.addAttribute("graveyard", graveyard);
+    } else {
+      Userinfo predictTarget = userinfoMapper.selectUserinfo(target);
+      model.addAttribute("predictTarget", predictTarget);
     }
+    Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
+    model.addAttribute("userinfo", userinfo);
+    return "game";
+  }
 
-    @GetMapping("/kaito")
-    public String thief(@RequestParam("target") String target, ModelMap model, Principal prin){
-        Userinfo stealTarget = userinfoMapper.selectUserinfo(target);
-        userinfoMapper.updateUserInfo(stealTarget.getRole(), prin.getName());
-        userinfoMapper.updateUserInfo("怪盗", target);
-        Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
-        model.addAttribute("userinfo", userinfo);
-        return "game";
-    }
+  @GetMapping("/kaito")
+  public String thief(@RequestParam("target") String target, ModelMap model, Principal prin) {
+    Userinfo stealTarget = userinfoMapper.selectUserinfo(target);
+    userinfoMapper.updateUserInfo(stealTarget.getRole(), prin.getName());
+    userinfoMapper.updateUserInfo("怪盗", target);
+    Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
+    model.addAttribute("userinfo", userinfo);
+    return "game";
+  }
 }
