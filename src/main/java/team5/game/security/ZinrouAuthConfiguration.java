@@ -13,30 +13,28 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class ZinrouAuthConfiguration {
-  /**
-   * 認可処理に関する設定（認証されたユーザがどこにアクセスできるか）
-   *
-   * @param http
-   * @return
-   * @throws Exception
-   */
+
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.formLogin(login -> login
-        .permitAll())
-        .logout(logout -> logout
-            .logoutUrl("/logout")
-            .logoutSuccessUrl("/")) // ログアウト後に / にリダイレクト
+    http
         .authorizeHttpRequests(authz -> authz
             .requestMatchers(AntPathRequestMatcher.antMatcher("/entry/**"))
-            .authenticated() // /sample3/以下は認証済みであること
+            .authenticated() // /entry/以下は認証済みであること
             .requestMatchers(AntPathRequestMatcher.antMatcher("/**"))
-            .permitAll())// 上記以外は全員アクセス可能
+            .permitAll()) // 上記以外は全員アクセス可能
         .csrf(csrf -> csrf
-            .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/*")))// h2-console用にCSRF対策を無効化
+            .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/*"))) // h2-console用にCSRF対策を無効化
         .headers(headers -> headers
             .frameOptions(frameOptions -> frameOptions
-                .sameOrigin()));
+                .sameOrigin()))
+        .formLogin(login -> login
+            .loginPage("/custom-login") // カスタムログインページを指定
+            .loginProcessingUrl("/login") // ログイン処理を受け付けるURLを指定
+            .permitAll())
+        .logout(logout -> logout
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/")); // ログアウト後に / にリダイレクト
+
     return http.build();
   }
 
