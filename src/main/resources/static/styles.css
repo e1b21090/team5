@@ -1,12 +1,8 @@
 body {
   background-image: url('tsuki.jpeg');
-  /* 画像ファイルのパスを指定 */
   background-size: cover;
-  /* 画像をウィンドウ全体に合わせる */
   background-repeat: no-repeat;
-  /* 画像の繰り返しを無効にする */
   background-attachment: fixed;
-  /* 画像を固定する（スクロール時に背景画像が移動しない） */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,7 +17,7 @@ body {
 .button {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #0074D9;
+  background-color: #70769d;
   color: #ffffff;
   text-decoration: none;
   border: none;
@@ -30,5 +26,5 @@ body {
 }
 
 .button:hover {
-  background-color: #0056B3;
+  background-color: #ddd;
 }
