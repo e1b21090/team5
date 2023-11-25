@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>人狼ゲーム</title>
+  <link rel="stylesheet" href="style_s.css">
   <script>
     window.onload = function () {
       var sse = new EventSource('/standbyroom');
@@ -19,7 +20,8 @@
         usertable += "</ul>";
         usertable += "<br/>";
         if (userList.length == 4) {
-          usertable += "<a href=" + "\"/game\"" + ">Start</a>";
+          usertable += "<p>4人のユーザが集まったので「Start」をクリックして夜のターンへ進んでください</p>";
+          usertable += "<a href=" + "\"/game\"" + "class=" + "\"button\"" + ">Start</a>";
         }
         console.log(usertable);
         var tobody = document.getElementById("userList");
@@ -30,9 +32,18 @@
 </head>
 
 <body>
-  <tobody id="userList"></tobody>
-  <div>
-    <a href="/entry">もどる</a>
+  <div id="loginUser">
+    <div id="content">
+      <h2>対戦相手を待っています</h2>
+      <h3>ログインしているユーザ</h3>
+      <div>
+        <tobody id="userList"></tobody>
+      </div>
+      <br /><br />
+      <div>
+        <a href="/entry" class="button">もどる</a>
+      </div>
+    </div>
   </div>
 
 

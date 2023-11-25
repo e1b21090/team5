@@ -1,0 +1,45 @@
+html {
+  font-size: 100%;
+}
+
+body {
+  font-family: Yu Gothic Medium, 游ゴシック Medium;
+  color: #ffff;
+  background-image: url('tsuki.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100%;
+}
+
+#loginUser {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  position: absolute;
+  top: 15%;
+  left: 10%;
+  width: 80%;
+  height: 70%;
+  text-align: center;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.button {
+  font-size: 1.05rem;
+  background: #70769d;
+  color: #fff;
+  border-radius: 3px;
+  padding: 13px 18px;
+  justify-content: space-between;
+}
+
+.button:hover {
+  background: #ddd;
+}
