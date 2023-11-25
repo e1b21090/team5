@@ -1,28 +1,31 @@
 body {
   background-image: url('bgr.webp');
-  /* 画像ファイルのパスを指定 */
   background-size: cover;
-  /* 画像をウィンドウ全体に合わせる */
   background-repeat: no-repeat;
-  /* 画像の繰り返しを無効にする */
   background-attachment: fixed;
-  /* 画像を固定する（スクロール時に背景画像が移動しない） */
+  flex-direction: column;
+  align-items: flex-start;
+  color: mintcream;
+  justify-content: center;
+  align-items: center;
   display: flex;
   height: 100vh;
   margin: 0;
 }
 
+.centered {
+  text-align: center;
+}
+
 .button {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #0074D9;
-  color: #ffffff;
-  text-decoration: none;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  font-size: 1.05rem;
+  background: #70769d;
+  color: #fff;
+  border-radius: 3px;
+  padding: 13px 18px;
+  justify-content: space-between;
 }
 
 .button:hover {
-  background-color: #0056B3;
+  background-color: #ddd;
 }
