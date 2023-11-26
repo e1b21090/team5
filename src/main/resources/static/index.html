@@ -5,9 +5,21 @@
   <meta charset="utf-8">
   <title>ワンナイト人狼</title>
   <link rel="stylesheet" type="text/css" href="styles.css">
+  <script>
+    window.onload = function() {
+      var sse = new EventSource("/date");
+      sse.onmessage = function(event){
+        console.log("sse.onmessage")
+        console.log(event.data);
+        document.getElementById("date").innerHTML = event.data;
+      }
+    }
+  </script>
 </head>
 
 <body>
+  <p id="date"></p>
+  <br/>
   <div class="centered">
     <a href="/entry" class="button">ログイン</a>
   </div>
