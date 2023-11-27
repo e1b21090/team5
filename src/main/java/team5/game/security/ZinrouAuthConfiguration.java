@@ -32,8 +32,8 @@ public class ZinrouAuthConfiguration {
             .loginProcessingUrl("/login") // ログイン処理を受け付けるURLを指定
             .permitAll())
         .logout(logout -> logout
-            .logoutUrl("/logout")
-            .logoutSuccessUrl("/")); // ログアウト後に / にリダイレクト
+            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+            .logoutSuccessUrl("/"));
 
     return http.build();
   }
