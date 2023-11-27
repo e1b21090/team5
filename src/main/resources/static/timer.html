@@ -10,6 +10,10 @@
       sse.onmessage = function (event) {
         console.log(event.data);
         document.getElementById("p1").textContent = event.data;
+        // 5秒後に自動遷移する（25000ミリ秒 = 25秒）
+        setTimeout(function () {
+          window.location.href = "/entry"; // リダイレクト先のURL
+        }, 25000);
       }
     }
   </script>
