@@ -18,6 +18,7 @@ import team5.game.model.Userinfo;
 import team5.game.model.UserinfoMapper;
 import java.util.Set;
 import team5.game.service.AsyncStandbyRoom;
+import team5.game.service.AsyncCheck;
 
 @Controller
 @SessionAttributes("userinfo")
@@ -34,6 +35,9 @@ public class JinroController {
 
   @Autowired
   private AsyncStandbyRoom asyncStandbyRoom;
+
+  @Autowired
+  private AsyncCheck asyncCheck;
 
   @GetMapping("/entry")
   public String entry() {
@@ -94,6 +98,39 @@ public class JinroController {
       model.addAttribute("userinfo", userinfo);
     }
     return "standby";
+  }
+
+  @GetMapping("/checkcard")
+  public SseEmitter checkcard() {
+    final SseEmitter emitter = new SseEmitter();
+    this.asyncCheck.check(emitter);
+    return emitter;
+  }
+
+  @GetMapping("/check")
+  public String check(Principal prin, ModelMap model) {
+    Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
+    if (userinfo.getRole().equals("人狼")) {
+      boolean isJinro = true;
+      String jinro = userinfoMapper.selectJinro(prin.getName());
+      model.addAttribute("jinro", jinro);
+      model.addAttribute("isJinro", isJinro);
+    }
+    if (userinfo.getRole().equals("占い師")) {
+      ArrayList<Userinfo> uranai = userinfoMapper.selectTarget(prin.getName());
+      model.addAttribute("uranai", uranai);
+    }
+    if (userinfo.getRole().equals("怪盗")) {
+      ArrayList<Userinfo> kaito = userinfoMapper.selectTarget(prin.getName());
+      model.addAttribute("kaito", kaito);
+    }
+    if (userinfo.getRole().equals("市民")) {
+      ArrayList<Userinfo> simin = userinfoMapper.selectTarget(prin.getName());
+      model.addAttribute("simin", simin);
+    }
+
+    model.addAttribute("userinfo", userinfo);
+    return "check";
   }
 
 }

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>人狼ゲーム-役職確認</title>
+  <link rel="stylesheet" type="text/css" href="style_g.css">
+  <script>
+    window.onload = function () {
+      var sse = new EventSource('/checkcard');
+      sse.onmessage = function (event) {
+        console.log(event.data);
+        // 5秒後に自動遷移する（5000ミリ秒 = 5秒）
+        setTimeout(function () {
+          window.location.href = "/game"; // リダイレクト先のURL
+        }, 5000);
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div class="vertical-container">
+    <h1><span sec:authentication="name" />さんは[[${userinfo.role}]]です</h1>
+    <div th:if="${isJinro}">
+      <img src='werewolf.JPG' width="310px" height="310px" alt="人狼" />
+    </div>
+    <div th:if="${uranai}">
+      <img src='seer.JPG' width="310px" height="310px" alt="占い師" />
+    </div>
+    <div th:if="${kaito}">
+      <img src='thief.JPG' width="310px" height="310px" alt="怪盗" />
+    </div>
+    <div th:if="${simin}">
+      <img src='villager.JPG' width="310px" height="310px" alt="市民" />
+    </div>
+    <div>5秒後に夜のターンに進みます</div>
+  </div>
+</body>
+
+</html>
