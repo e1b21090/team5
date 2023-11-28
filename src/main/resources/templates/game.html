@@ -36,17 +36,6 @@
         <li><a th:href="@{/uranai(target=graveyard)}" class="button">墓地</a></li>
       </ul>
     </div>
-    <div th:if="${predictTarget}">
-      <h3>占い結果</h3>
-      <p>[[${predictTarget.username}]]は[[${predictTarget.role}]]です</p>
-    </div>
-    <div th:if="${graveyard}">
-      <h3>占い結果</h3>
-      <p>墓地の役職は以下の通りです</p>
-      <div th:each="graveyard:${graveyard}">
-        <p>[[${graveyard.name}]]</p>
-      </div>
-    </div>
     <div th:if="${kaito}">
       <img src='thief.JPG' width="310px" height="310px" alt="怪盗" />
       <h3>役職を盗む対象</h3>
@@ -55,10 +44,6 @@
           <li><a th:href="@{/kaito(target=${kaito.username})}" class="button">[[${kaito.username}]]</a></li>
         </ul>
       </div>
-    </div>
-    <div th:if="${stealTarget}">
-      <h3>盗んだ役職</h3>
-      <p>[[${stealTarget.role}]]</p>
     </div>
     <div th:if="${simin}">
       <img src='villager.JPG' width="310px" height="310px" alt="市民" />
