@@ -19,6 +19,7 @@ import team5.game.model.UserinfoMapper;
 import java.util.Set;
 import team5.game.service.AsyncStandbyRoom;
 import team5.game.service.AsyncCheck;
+import team5.game.service.AsyncKaigi;
 
 @Controller
 @SessionAttributes("userinfo")
@@ -38,6 +39,9 @@ public class JinroController {
 
   @Autowired
   private AsyncCheck asyncCheck;
+
+  @Autowired
+  private AsyncKaigi asyncKaigi;
 
   @GetMapping("/entry")
   public String entry() {
@@ -138,4 +142,10 @@ public class JinroController {
     return "kaigi";
   }
 
+  @GetMapping("/movekaigi")
+  public SseEmitter movekaigi() {
+    final SseEmitter emitter = new SseEmitter();
+    this.asyncKaigi.kaigi(emitter);
+    return emitter;
+  }
 }
