@@ -133,4 +133,9 @@ public class JinroController {
     return "check";
   }
 
+  @GetMapping("/kaigi")
+  public String kaigi() {
+    return "kaigi";
+  }
+
 }
