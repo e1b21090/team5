@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>人狼ゲーム</title>
+  <title>人狼ゲーム-待機部屋</title>
   <link rel="stylesheet" href="style_s.css">
   <script>
     window.onload = function () {
@@ -20,8 +20,10 @@
         usertable += "</ul>";
         usertable += "<br/>";
         if (userList.length == 4) {
-          usertable += "<p>4人のユーザが集まったので「Start」をクリックして夜のターンへ進んでください</p>";
-          usertable += "<a href=" + "\"/game\"" + "class=" + "\"button\"" + ">Start</a>";
+          usertable += "<p>4人のユーザが集まったので役職確認へ進みます</p>";
+          setTimeout(function () {
+            window.location.href = "/check"; // リダイレクト先のURL
+          }, 5000);
         }
         console.log(usertable);
         var tobody = document.getElementById("userList");
