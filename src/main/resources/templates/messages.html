@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Bulletin Board</title>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script th:inline="javascript">
+    $(document).ready(function () {
+      function updateMessages() {
+        $.get("/api/messages", function (data) {
+          var messageList = $("#message-list");
+          messageList.empty();
+          $.each(data, function (index, message) {
+            messageList.append("<li>" + message + "</li>");
+          });
+        });
+      }
+
+      setInterval(updateMessages, 3000);
+    });
+  </script>
+</head>
+
+<body>
+  <h2>Messages</h2>
+  <ul id="message-list">
+    <li th:each="message : ${messages}" th:text="${message}"></li>
+  </ul>
+
+  <form th:action="@{/post}" method="post" id="post-form">
+    <input type="text" name="message" placeholder="Type your message" required />
+    <button type="submit">Post</button>
+  </form>
+</body>
+
+</html>
