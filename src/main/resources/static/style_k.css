@@ -1,0 +1,28 @@
+html {
+  font-size: 100%;
+}
+
+body {
+  font-family: Yu Gothic Medium, 游ゴシック Medium;
+  color: black;
+  background-image: url('ohiru.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100%;
+}
+
+.backgraund {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  position: absolute;
+  top: 3%;
+  left: 5%;
+  width: 90%;
+  height: 90%;
+  text-align: center;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+}
