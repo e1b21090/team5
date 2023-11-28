@@ -32,7 +32,7 @@ public class GameProgressionController {
     }
     Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
     model.addAttribute("userinfo", userinfo);
-    return "game";
+    return "outcome";
   }
 
   @GetMapping("/kaito")
@@ -42,6 +42,7 @@ public class GameProgressionController {
     userinfoMapper.updateUserInfo("怪盗", target);
     Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
     model.addAttribute("userinfo", userinfo);
-    return "game";
+    model.addAttribute("stealTarget", stealTarget);
+    return "outcome";
   }
 }
