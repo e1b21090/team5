@@ -21,6 +21,8 @@ import team5.game.service.AsyncStandbyRoom;
 import team5.game.service.AsyncCheck;
 import team5.game.service.AsyncKaigi;
 import team5.game.service.AsyncToRoles;
+import team5.game.service.AsyncVote;
+import team5.game.service.AsyncVotePhase;
 
 @Controller
 @SessionAttributes("userinfo")
@@ -46,6 +48,12 @@ public class JinroController {
 
   @Autowired
   private AsyncToRoles asyncToRoles;
+
+  @Autowired
+  private AsyncVote asyncVote;
+
+  @Autowired
+  private AsyncVotePhase asyncVotePhase;
 
   @GetMapping("/entry")
   public String entry() {
@@ -158,5 +166,26 @@ public class JinroController {
     final SseEmitter emitter = new SseEmitter();
     this.asyncToRoles.toRoles(emitter);
     return emitter;
-  } 
+  }
+
+  @GetMapping("/toVote")
+  public SseEmitter toVote() {
+    final SseEmitter emitter = new SseEmitter();
+    this.asyncVote.vote(emitter);
+    return emitter;
+  }
+
+  @GetMapping("/votePhase")
+  public SseEmitter votePhase() {
+    final SseEmitter emitter = new SseEmitter();
+    this.asyncVotePhase.votePhase(emitter);
+    return emitter;
+  }
+
+  @GetMapping("/vote")
+  public String vote(Principal prin, ModelMap model) {
+    Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
+    model.addAttribute("userinfo", userinfo);
+    return "vote";
+  }
 }

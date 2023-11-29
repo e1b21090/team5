@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>人狼ゲーム-投票タイム</title>
+  <link rel="stylesheet" href="style_k.css">
+  <script>
+    window.onload = function () {
+      var sse = new EventSource('/votePhase');
+      sse.onmessage = function (event) {
+        console.log("sse.onmessage");
+        console.log(event.data);
+        var userList = JSON.parse(event.data);
+        var usertable = "";
+        usertable += "<ul>";
+        for (var i = 0; i < userList.length; i++) {
+          usertable += '<input type="radio" name="vote" value="' + userList[i] + '">';
+          usertable += '<label>' + userList[i] + '</label><br>';
+        }
+        usertable += "</ul>";
+        usertable += "<br/>";
+        console.log(usertable);
+        var tobody = document.getElementById("userList");
+        tobody.innerHTML = usertable;
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div class="backgraund">
+    <div id="explanation">
+      <h2>投票タイム</h2>
+      <p>吊りたいと思った人物または吊らないのボタンを押してください</p>
+      <div>
+        <tobody id="userList"></tobody>
+      </div>
+      <br /><br />
+    </div>
+  </div>
+</body>
+
+</html>

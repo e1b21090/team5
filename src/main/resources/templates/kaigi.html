@@ -5,6 +5,18 @@
   <meta charset="utf-8">
   <title>人狼ゲーム-昼のターン</title>
   <link rel="stylesheet" href="style_k.css">
+  <script>
+    window.onload = function () {
+      var sse = new EventSource('/toVote');
+      sse.onmessage = function (event) {
+        console.log(event.data);
+        // 5秒後に自動遷移する（5000ミリ秒 = 5秒）
+        setTimeout(function () {
+          window.location.href = "/vote"; // リダイレクト先のURL
+        }, 5000);
+      }
+    }
+  </script>
 </head>
 
 <body>
