@@ -15,8 +15,6 @@ import team5.game.model.UserinfoMapper;
 @Service
 public class AsyncVote {
 
-  private boolean max = false;
-
   private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 
   @Autowired
@@ -31,7 +29,6 @@ public class AsyncVote {
         logger.info("joinUserList:" + joinUserList);
         TimeUnit.MILLISECONDS.sleep(500);
         if (joinUserList.size() == 4) {
-          max = true;
           break;
         }
       }
