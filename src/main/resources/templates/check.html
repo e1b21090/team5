@@ -6,15 +6,26 @@
   <title>人狼ゲーム-役職確認</title>
   <link rel="stylesheet" type="text/css" href="style_g.css">
   <script>
+    var seconds = 5;
     window.onload = function () {
       var sse = new EventSource('/checkcard');
-      sse.onmessage = function (event) {
-        console.log(event.data);
-        // 5秒後に自動遷移する（5000ミリ秒 = 5秒）
-        setTimeout(function () {
-          window.location.href = "/game"; // リダイレクト先のURL
-        }, 5000);
-      }
+      var countdownDisplay = document.getElementById('countdown');
+
+      var countdownInterval = setInterval(function () {
+        var remainingSeconds = seconds % 60;
+
+        countdownDisplay.textContent = remainingSeconds;
+
+        if (seconds <= 0) {
+          clearInterval(countdownInterval);
+          if (seconds == 0) {
+            alert("夜のターンに進みます");
+            window.location.href = "/game"; // カウントダウン終了後のリダイレクト先のURL
+          }
+        } else {
+          seconds--;
+        }
+      }, 1000); // 1秒ごとにカウントダウン
     }
   </script>
 </head>
@@ -34,7 +45,7 @@
     <div th:if="${simin}">
       <img src='villager.JPG' width="310px" height="310px" alt="市民" />
     </div>
-    <div>5秒後に夜のターンに進みます</div>
+    <div><span id="countdown">5</span>秒後に夜のターンに進みます</div>
   </div>
 </body>
 

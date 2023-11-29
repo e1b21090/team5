@@ -6,15 +6,31 @@
   <title>人狼ゲーム-昼のターン</title>
   <link rel="stylesheet" href="style_k.css">
   <script>
+    var seconds = 180;
     window.onload = function () {
-      var sse = new EventSource('/toVote');
-      sse.onmessage = function (event) {
-        console.log(event.data);
-        // 5秒後に自動遷移する（5000ミリ秒 = 5秒）
-        setTimeout(function () {
-          window.location.href = "/vote"; // リダイレクト先のURL
-        }, 5000);
-      }
+      var countdownDisplay = document.getElementById('countdown');
+
+      var countdownInterval = setInterval(function () {
+        var minutes = Math.floor(seconds / 60);
+        var remainingSeconds = seconds % 60;
+
+        // 1桁の場合、0を前に付ける
+        if (remainingSeconds < 10) {
+          remainingSeconds = "0" + remainingSeconds;
+        }
+
+        countdownDisplay.textContent = minutes + ":" + remainingSeconds;
+
+        if (seconds <= 0) {
+          clearInterval(countdownInterval);
+          if (seconds == 0) {
+            alert("投票タイムに進みます");
+            window.location.href = "/vote"; // カウントダウン終了後のリダイレクト先のURL
+          }
+        } else {
+          seconds--;
+        }
+      }, 1000); // 1秒ごとにカウントダウン
     }
   </script>
 </head>
@@ -25,6 +41,7 @@
       <h2>昼のターン</h2>
       <p>3分間話し合いを行ってください</p>
     </div>
+    <h2 id="countdown">3:00</h2>
   </div>
 </body>
 
