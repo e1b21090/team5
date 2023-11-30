@@ -6,7 +6,8 @@
   <title>人狼ゲーム-昼のターン</title>
   <link rel="stylesheet" href="style_k.css">
   <script>
-    var seconds = 180;
+    var seconds = getRemainingTime();
+
     window.onload = function () {
       var countdownDisplay = document.getElementById('countdown');
 
@@ -14,7 +15,6 @@
         var minutes = Math.floor(seconds / 60);
         var remainingSeconds = seconds % 60;
 
-        // 1桁の場合、0を前に付ける
         if (remainingSeconds < 10) {
           remainingSeconds = "0" + remainingSeconds;
         }
@@ -25,14 +25,42 @@
           clearInterval(countdownInterval);
           if (seconds == 0) {
             alert("投票タイムに進みます");
-            window.location.href = "/vote"; // カウントダウン終了後のリダイレクト先のURL
+            window.location.href = "/vote";
           }
         } else {
           seconds--;
+          setRemainingTime(seconds);
         }
-      }, 1000); // 1秒ごとにカウントダウン
+      }, 1000);
+    }
+
+    function getRemainingTime() {
+      var remainingTime = localStorage.getItem('remainingTime');
+      return remainingTime !== null ? parseInt(remainingTime) : 180; // デフォルトは3分
+    }
+
+    function setRemainingTime(time) {
+      localStorage.setItem('remainingTime', time);
     }
   </script>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script th:inline="javascript">
+    $(document).ready(function () {
+      function updateMessages() {
+        $.get("/api/kaigi", function (data) {
+          var messageList = $("#message-list");
+          messageList.empty();
+          $.each(data, function (index, message) {
+            messageList.append("<li>" + message + "</li>");
+          });
+        });
+      }
+
+      setInterval(updateMessages, 3000);
+    });
+  </script>
+
 </head>
 
 <body>
@@ -42,6 +70,15 @@
       <p>3分間話し合いを行ってください</p>
     </div>
     <h2 id="countdown">3:00</h2>
+
+    <ul id="message-list">
+      <li th:each="message : ${kaigi}" th:text="${message}"></li>
+    </ul>
+
+    <form th:action="@{/post}" method="post" id="post-form">
+      <input type="text" name="message" placeholder="Type your message" required />
+      <button type="submit">Post</button>
+    </form>
   </div>
 </body>
 

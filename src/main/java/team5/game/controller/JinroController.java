@@ -149,11 +149,6 @@ public class JinroController {
     return "check";
   }
 
-  @GetMapping("/kaigi")
-  public String kaigi() {
-    return "kaigi";
-  }
-
   @GetMapping("/movekaigi")
   public SseEmitter movekaigi() {
     final SseEmitter emitter = new SseEmitter();

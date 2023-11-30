@@ -16,15 +16,15 @@ public class BulletinBoardController {
   @Autowired
   private BulletinBoardService bulletinBoardService;
 
-  @GetMapping("/messages")
+  @GetMapping("/kaigi")
   public String getAllMessages(Model model) {
-    model.addAttribute("messages", bulletinBoardService.getAllMessages());
-    return "messages";
+    model.addAttribute("kaigi", bulletinBoardService.getAllMessages());
+    return "kaigi";
   }
 
   @PostMapping("/post")
   public String postMessage(@RequestParam("message") String message) {
     bulletinBoardService.postMessage(message);
-    return "redirect:/messages";
+    return "redirect:/kaigi";
   }
 }
