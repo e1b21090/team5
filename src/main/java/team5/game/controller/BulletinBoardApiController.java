@@ -12,7 +12,7 @@ public class BulletinBoardApiController {
   @Autowired
   private BulletinBoardService bulletinBoardService;
 
-  @GetMapping("/api/messages")
+  @GetMapping("/api/kaigi")
   public List<String> getMessages() {
     return bulletinBoardService.getAllMessages();
   }
