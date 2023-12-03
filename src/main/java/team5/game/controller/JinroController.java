@@ -7,6 +7,7 @@ import java.util.HashSet;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -30,6 +31,10 @@ public class JinroController {
 
   // 既に生成された数値を格納
   Set<Integer> uniqueNumbers = new HashSet<>();
+
+  Userinfo stealTarget;
+
+  Userinfo thief;
 
   @Autowired
   private UserinfoMapper userinfoMapper;
@@ -149,6 +154,29 @@ public class JinroController {
     return "check";
   }
 
+  @GetMapping("/uranai")
+  public String soothsayer(@RequestParam("target") String target, ModelMap model, Principal prin) {
+    if (target.equals("graveyard")) {
+      ArrayList<Roles> graveyard = rolesMapper.selectGraveyard();
+      model.addAttribute("graveyard", graveyard);
+    } else {
+      Userinfo predictTarget = userinfoMapper.selectUserinfo(target);
+      model.addAttribute("predictTarget", predictTarget);
+    }
+    Userinfo soothsayer = userinfoMapper.selectUserinfo(prin.getName());
+    model.addAttribute("soothsayer", soothsayer);
+    return "outcome";
+  }
+
+  @GetMapping("/kaito")
+  public String thief(@RequestParam("target") String target, ModelMap model, Principal prin) {
+    this.stealTarget = userinfoMapper.selectUserinfo(target);
+    this.thief = userinfoMapper.selectUserinfo(prin.getName());
+    model.addAttribute("thief", thief);
+    model.addAttribute("stealTarget", stealTarget);
+    return "outcome";
+  }
+
   @GetMapping("/movekaigi")
   public SseEmitter movekaigi() {
     final SseEmitter emitter = new SseEmitter();
@@ -179,6 +207,10 @@ public class JinroController {
 
   @GetMapping("/vote")
   public String vote(Principal prin, ModelMap model) {
+    if(this.stealTarget != null && this.thief.getRole().equals("怪盗")){
+      userinfoMapper.updateUserInfo(stealTarget.getRole(), thief.getUsername());
+      userinfoMapper.updateUserInfo("怪盗", stealTarget.getUsername());
+    }
     Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
     model.addAttribute("userinfo", userinfo);
     return "vote";
