@@ -6,15 +6,21 @@
   <title>人狼ゲーム-昼のターン</title>
   <link rel="stylesheet" href="style_k.css">
   <script>
-    var seconds = getRemainingTime();
-
     window.onload = function () {
+      var visitCount = getVisitCount();
+
+      if (visitCount === 1) {
+        setRemainingTime(180); // 最初のアクセス時のみ残り時間を180に設定
+      }
+
+      var seconds = getRemainingTime();
       var countdownDisplay = document.getElementById('countdown');
 
       var countdownInterval = setInterval(function () {
         var minutes = Math.floor(seconds / 60);
         var remainingSeconds = seconds % 60;
 
+        // 1桁の場合、0を前に付ける
         if (remainingSeconds < 10) {
           remainingSeconds = "0" + remainingSeconds;
         }
@@ -24,26 +30,36 @@
         if (seconds <= 0) {
           clearInterval(countdownInterval);
           if (seconds == 0) {
+            localStorage.removeItem('visitCount');
+            //ログイン回数のリセット
             alert("投票タイムに進みます");
-            window.location.href = "/vote";
+            window.location.href = "/vote"; // カウントダウン終了後のリダイレクト先のURL
           }
         } else {
           seconds--;
           setRemainingTime(seconds);
         }
-      }, 1000);
+      }, 1000); // 1秒ごとにカウントダウン
     }
 
+    // ローカルストレージに残り時間を取得
     function getRemainingTime() {
       var remainingTime = localStorage.getItem('remainingTime');
-      return remainingTime !== null ? parseInt(remainingTime) : 180; // デフォルトは3分
+      return parseInt(remainingTime);
     }
 
+    // ローカルストレージに残り時間を保存
     function setRemainingTime(time) {
       localStorage.setItem('remainingTime', time);
     }
-  </script>
 
+    function getVisitCount() {
+      var visitCount = localStorage.getItem('visitCount');
+      visitCount = visitCount ? parseInt(visitCount) + 1 : 1;
+      localStorage.setItem('visitCount', visitCount);
+      return visitCount;
+    }
+  </script>
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script th:inline="javascript">
     $(document).ready(function () {
@@ -57,10 +73,9 @@
         });
       }
 
-      setInterval(updateMessages, 3000);
+      setInterval(updateMessages, 100);
     });
   </script>
-
 </head>
 
 <body>
@@ -69,8 +84,7 @@
       <h2>昼のターン</h2>
       <p>3分間話し合いを行ってください</p>
     </div>
-    <h2 id="countdown">3:00</h2>
-
+    <h2 id="countdown">--:--</h2>
     <ul id="message-list">
       <li th:each="message : ${kaigi}" th:text="${message}"></li>
     </ul>
