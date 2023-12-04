@@ -8,33 +8,43 @@
   <script>
     window.onload = function () {
       var sse = new EventSource('/toRoles');
-      sse.onmessage = function (event) {
-        console.log(event.data);
-        // 5秒後に自動遷移する（5000ミリ秒 = 5秒）
-        setTimeout(function () {
-          window.location.href = "/kaigi"; // リダイレクト先のURL
-        }, 5000);
-      }
+      var countdownDisplay = document.getElementById('countdown');
+      var seconds = localStorage.getItem('remainingTime');
+      var countdownInterval = setInterval(function () {
+        var remainingSeconds = seconds % 60;
+
+        countdownDisplay.textContent = remainingSeconds;
+
+        if (seconds <= 0) {
+          clearInterval(countdownInterval);
+          if (seconds == 0) {
+            window.location.href = "/kaigi"; // カウントダウン終了後のリダイレクト先のURL
+          }
+        } else {
+          seconds--;
+        }
+      }, 1000); // 1秒ごとにカウントダウン
     }
   </script>
 </head>
 
 <body>
-    <div th:if="${predictTarget}">
-        <h3>占い結果</h3>
-        <p>[[${predictTarget.username}]]は[[${predictTarget.role}]]です</p>
+  <div th:if="${predictTarget}">
+    <h3>占い結果</h3>
+    <p>[[${predictTarget.username}]]は[[${predictTarget.role}]]です</p>
+  </div>
+  <div th:if="${graveyard}">
+    <h3>占い結果</h3>
+    <p>墓地の役職は以下の通りです</p>
+    <div th:each="graveyard:${graveyard}">
+      <p>[[${graveyard.name}]]</p>
     </div>
-    <div th:if="${graveyard}">
-      <h3>占い結果</h3>
-      <p>墓地の役職は以下の通りです</p>
-      <div th:each="graveyard:${graveyard}">
-        <p>[[${graveyard.name}]]</p>
-      </div>
-    </div>
-    <div th:if="${stealTarget}">
-      <h3>盗んだ役職</h3>
-      <p>[[${stealTarget.role}]]</p>
-    </div>
+  </div>
+  <div th:if="${stealTarget}">
+    <h3>盗んだ役職</h3>
+    <p>[[${stealTarget.role}]]</p>
+  </div>
+  <div><span id="countdown">-</span>秒後に昼のターンに進みます</div>
 </body>
 
 </html>

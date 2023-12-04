@@ -10,7 +10,6 @@
     window.onload = function () {
       var sse = new EventSource('/movekaigi');
       var countdownDisplay = document.getElementById('countdown');
-
       var countdownInterval = setInterval(function () {
         var remainingSeconds = seconds % 60;
 
@@ -19,11 +18,11 @@
         if (seconds <= 0) {
           clearInterval(countdownInterval);
           if (seconds == 0) {
-            alert("昼のターンに進みます");
             window.location.href = "/kaigi"; // カウントダウン終了後のリダイレクト先のURL
           }
         } else {
           seconds--;
+          localStorage.setItem('remainingTime', seconds);
         }
       }, 1000); // 1秒ごとにカウントダウン
     }
