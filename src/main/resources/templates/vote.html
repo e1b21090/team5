@@ -14,6 +14,12 @@
       }
     }
   </script-->
+  <script>
+    function saveSelection(){
+      const selected = document.querySelector('input[name="vote"]:checked').value;
+      window.location.href = "/voteresult?selection=" + selected;
+    }
+  </script>
 </head>
 
 <body>
@@ -26,9 +32,9 @@
           <input type="radio" name="vote" value="tsuranai"><label>吊らない</label><br>
         </div>
         <div th:each="v_target:${v_target}">
-          <input type="radio" name="vote" value="tsuru"><label>[[${v_target.username}]]</label><br>
+          <input type="radio" name="vote" value=${v_target.getuserName()}><label>[[${v_target.username}]]</label><br>
         </div>
-        <input type="submit" value="送信">
+        <input type="button" value="送信" onclick="saveSelection()"></form>
       </form>
     </div>
     <br /><br />

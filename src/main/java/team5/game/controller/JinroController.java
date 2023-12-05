@@ -216,4 +216,10 @@ public class JinroController {
     return "vote";
   }
 
+  @GetMapping("/voteresult")
+  public String voteresult(@RequestParam("selection") String selection, ModelMap model) {
+    model.addAttribute("selection", selection);
+    return "voteresult";
+  }
+
 }
