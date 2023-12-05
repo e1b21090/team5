@@ -68,7 +68,7 @@
           var messageList = $("#message-list");
           messageList.empty();
           $.each(data, function (index, message) {
-            messageList.append("<p>" + message + "</p>");
+            messageList.append("<li>" + message + "</li>");
           });
         });
       }
@@ -79,15 +79,18 @@
 </head>
 
 <body>
-  <div class="backgraund">
+  <div id="backgraund">
     <div id="explanation">
       <h2>昼のターン</h2>
       <p>3分間話し合いを行ってください</p>
     </div>
     <h2 id="countdown">--:--</h2>
-    <ul id="message-list">
-      <p th:each="message : ${kaigi}" th:text="${message}"></p>
-    </ul>
+
+    <div id="chat">
+      <ul id="message-list">
+        <li th:each="message : ${kaigi}" th:text="${message}"></li>
+      </ul>
+    </div>
 
     <form th:action="@{/post}" method="post" id="post-form">
       <input type="text" name="message" placeholder="Type your message" required />
