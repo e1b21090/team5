@@ -68,7 +68,7 @@
           var messageList = $("#message-list");
           messageList.empty();
           $.each(data, function (index, message) {
-            messageList.append("<li>" + message + "</li>");
+            messageList.append("<p>" + message + "</p>");
           });
         });
       }
@@ -86,7 +86,7 @@
     </div>
     <h2 id="countdown">--:--</h2>
     <ul id="message-list">
-      <li th:each="message : ${kaigi}" th:text="${message}"></li>
+      <p th:each="message : ${kaigi}" th:text="${message}"></p>
     </ul>
 
     <form th:action="@{/post}" method="post" id="post-form">

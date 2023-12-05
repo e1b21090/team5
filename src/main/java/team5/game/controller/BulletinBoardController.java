@@ -1,6 +1,8 @@
 
 package team5.game.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +25,8 @@ public class BulletinBoardController {
   }
 
   @PostMapping("/post")
-  public String postMessage(@RequestParam("message") String message) {
+  public String postMessage(@RequestParam("message") String message, Principal prin) {
+    message = prin.getName() + ":" + message;
     bulletinBoardService.postMessage(message);
     return "redirect:/kaigi";
   }
