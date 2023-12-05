@@ -207,12 +207,13 @@ public class JinroController {
 
   @GetMapping("/vote")
   public String vote(Principal prin, ModelMap model) {
-    if(this.stealTarget != null && this.thief.getRole().equals("怪盗")){
+    if (this.stealTarget != null && this.thief.getRole().equals("怪盗")) {
       userinfoMapper.updateUserInfo(stealTarget.getRole(), thief.getUsername());
       userinfoMapper.updateUserInfo("怪盗", stealTarget.getUsername());
     }
-    Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
-    model.addAttribute("userinfo", userinfo);
+    ArrayList<Userinfo> v_target = userinfoMapper.selectTarget(prin.getName());
+    model.addAttribute("v_target", v_target);
     return "vote";
   }
+
 }
