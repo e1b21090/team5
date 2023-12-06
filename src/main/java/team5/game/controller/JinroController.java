@@ -236,7 +236,33 @@ public class JinroController {
       voteCount4++;
     }
     model.addAttribute("selection", selection);
+    userinfoMapper.updateSelectedTrue(prin.getName());
+    Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
+    model.addAttribute("userinfo", userinfo);
     return "waitingvoteresult";
   }
 
+  @GetMapping("/voteresult")
+  public String voteresult(ModelMap model) {
+    if (voteCount1 > voteCount0 && voteCount1 > voteCount2 && voteCount1 > voteCount3 && voteCount1 > voteCount4) {
+      model.addAttribute("selection", "user1");
+    } else if (voteCount2 > voteCount0 && voteCount2 > voteCount1 && voteCount2 > voteCount3
+        && voteCount2 > voteCount4) {
+      model.addAttribute("selection", "user2");
+    } else if (voteCount3 > voteCount0 && voteCount3 > voteCount1 && voteCount3 > voteCount2
+        && voteCount3 > voteCount4) {
+      model.addAttribute("selection", "user3");
+    } else if (voteCount4 > voteCount0 && voteCount4 > voteCount1 && voteCount4 > voteCount2
+        && voteCount4 > voteCount3) {
+      model.addAttribute("selection", "user4");
+    } else {
+      model.addAttribute("selection", "吊らない");
+    }
+    model.addAttribute("count_0", voteCount0);
+    model.addAttribute("count_1", voteCount1);
+    model.addAttribute("count_2", voteCount2);
+    model.addAttribute("count_3", voteCount3);
+    model.addAttribute("count_4", voteCount4);
+    return "voteresult";
+  }
 }
