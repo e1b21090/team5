@@ -24,10 +24,10 @@ public class AsyncVotePhase {
   public void votePhase(SseEmitter emitter) {
     try {
       while (true) {
-        ArrayList<String> joinUserList = userinfoMapper.selectNotnullUses();
+        ArrayList<String> joinUserList = userinfoMapper.selectTrueSelected();
         emitter.send(joinUserList);
         logger.info("joinUserList:" + joinUserList);
-        TimeUnit.MILLISECONDS.sleep(100000);
+        TimeUnit.MILLISECONDS.sleep(500);
         if (joinUserList.size() == 4) {
           break;
         }

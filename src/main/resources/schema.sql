@@ -7,5 +7,6 @@ CREATE TABLE roles (
 CREATE TABLE userinfo (
     id IDENTITY,
     username VARCHAR NOT NULL,
-    role VARCHAR
+    role VARCHAR,
+    selected BOOLEAN NOT NULL
 );

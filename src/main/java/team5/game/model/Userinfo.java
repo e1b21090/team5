@@ -4,6 +4,7 @@ public class Userinfo {
   private int id;
   private String username;
   private String role;
+  private boolean selected;
 
   public int getId() {
     return id;
@@ -29,4 +30,11 @@ public class Userinfo {
     this.role = role;
   }
 
+  public boolean isSelected() {
+    return selected;
+  }
+
+  public void setSelected(boolean selected) {
+    this.selected = selected;
+  }
 }

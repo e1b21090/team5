@@ -17,10 +17,25 @@ public interface UserinfoMapper {
   @Select("SELECT * FROM userinfo WHERE username != #{username}")
   ArrayList<Userinfo> selectTarget(String username);
 
+  @Select("SELECT role FROM userinfo")
+  ArrayList<String> selectWolf();
+
   @Select("SELECT username FROM userinfo WHERE role is not null")
   ArrayList<String> selectNotnullUses();
 
+  @Select("SELECT username FROM userinfo WHERE selected = true")
+  ArrayList<String> selectTrueSelected();
+
+  @Update("UPDATE userinfo SET selected = true WHERE username = #{username}")
+  void updateSelectedTrue(String username);
+
+  @Update("UPDATE userinfo SET selected = false WHERE username = #{username}")
+  void updateSelectedFalse(String username);
+
   @Update("UPDATE userinfo SET role = #{role} WHERE username = #{username}")
   void updateUserInfo(String role, String username);
+
+  @Update("UPDATE userinfo SET role = null WHERE username = #{username}")
+  void updateUserInfoNull(String username);
 
 }
