@@ -4,6 +4,30 @@
 <head>
   <meta charset="utf-8">
   <title>人狼ゲーム-投票結果</title>
+  <script>
+    var selection = "[[${selection}]]";
+    window.onload = function () {
+      var sse = new EventSource('/voteFinish');
+      sse.onmessage = function (event) {
+        console.log("sse.onmessage");
+        console.log(event.data);
+        var userList = JSON.parse(event.data);
+        var usertable = "";
+        usertable += "<ul>";
+        usertable += "</ul>";
+        usertable += "<br/>";
+        if (userList.length == 4) {
+          usertable += "<p>4人のユーザが集まったので結果へ進みます</p>";
+          setTimeout(function () {
+            window.location.href = "/gameresult?selection=" + selection; // リダイレクト先のURL
+          }, 5000);
+        }
+        console.log(usertable);
+        var tobody = document.getElementById("userList");
+        tobody.innerHTML = usertable;
+      }
+    }
+  </script>
 </head>
 
 <body>
@@ -14,6 +38,10 @@
   <p>user2:[[${count_2}]]票</p>
   <p>user3:[[${count_3}]]票</p>
   <p>user4:[[${count_4}]]票</p>
+  <div>
+    <tobody id="userList"></tobody>
+  </div>
+  <br /><br />
 </body>
 
 </html>
