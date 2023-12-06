@@ -24,6 +24,7 @@ import team5.game.service.AsyncKaigi;
 import team5.game.service.AsyncToRoles;
 import team5.game.service.AsyncVote;
 import team5.game.service.AsyncVotePhase;
+import team5.game.service.AsyncVoteFinish;
 
 @Controller
 @SessionAttributes("userinfo")
@@ -66,6 +67,9 @@ public class JinroController {
   @Autowired
   private AsyncVotePhase asyncVotePhase;
 
+  @Autowired
+  private AsyncVoteFinish asyncVoteFinish;
+
   @GetMapping("/entry")
   public String entry() {
     return "entry";
@@ -74,33 +78,6 @@ public class JinroController {
   @GetMapping("/rules")
   public String rules() {
     return "rules";
-  }
-
-  @GetMapping("/game")
-  public String game(Principal prin, ModelMap model) {
-    Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
-
-    if (userinfo.getRole().equals("人狼")) {
-      boolean isJinro = true;
-      String jinro = userinfoMapper.selectJinro(prin.getName());
-      model.addAttribute("jinro", jinro);
-      model.addAttribute("isJinro", isJinro);
-    }
-    if (userinfo.getRole().equals("占い師")) {
-      ArrayList<Userinfo> uranai = userinfoMapper.selectTarget(prin.getName());
-      model.addAttribute("uranai", uranai);
-    }
-    if (userinfo.getRole().equals("怪盗")) {
-      ArrayList<Userinfo> kaito = userinfoMapper.selectTarget(prin.getName());
-      model.addAttribute("kaito", kaito);
-    }
-    if (userinfo.getRole().equals("市民")) {
-      ArrayList<Userinfo> simin = userinfoMapper.selectTarget(prin.getName());
-      model.addAttribute("simin", simin);
-    }
-
-    model.addAttribute("userinfo", userinfo);
-    return "game";
   }
 
   @GetMapping("/standbyroom")
@@ -158,6 +135,33 @@ public class JinroController {
 
     model.addAttribute("userinfo", userinfo);
     return "check";
+  }
+
+  @GetMapping("/game")
+  public String game(Principal prin, ModelMap model) {
+    Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
+
+    if (userinfo.getRole().equals("人狼")) {
+      boolean isJinro = true;
+      String jinro = userinfoMapper.selectJinro(prin.getName());
+      model.addAttribute("jinro", jinro);
+      model.addAttribute("isJinro", isJinro);
+    }
+    if (userinfo.getRole().equals("占い師")) {
+      ArrayList<Userinfo> uranai = userinfoMapper.selectTarget(prin.getName());
+      model.addAttribute("uranai", uranai);
+    }
+    if (userinfo.getRole().equals("怪盗")) {
+      ArrayList<Userinfo> kaito = userinfoMapper.selectTarget(prin.getName());
+      model.addAttribute("kaito", kaito);
+    }
+    if (userinfo.getRole().equals("市民")) {
+      ArrayList<Userinfo> simin = userinfoMapper.selectTarget(prin.getName());
+      model.addAttribute("simin", simin);
+    }
+
+    model.addAttribute("userinfo", userinfo);
+    return "game";
   }
 
   @GetMapping("/uranai")
@@ -264,5 +268,41 @@ public class JinroController {
     model.addAttribute("count_3", voteCount3);
     model.addAttribute("count_4", voteCount4);
     return "voteresult";
+  }
+
+  @GetMapping("/voteFinish")
+  public SseEmitter voteFinish() {
+    final SseEmitter emitter = new SseEmitter();
+    this.asyncVoteFinish.voteFinish(emitter);
+    return emitter;
+  }
+
+  @GetMapping("/gameresult")
+  public String gameresult(@RequestParam("selection") String selection, ModelMap model) {
+    if (selection.equals("吊らない")) {
+      ArrayList<String> all = userinfoMapper.selectWolf();
+      if (all.contains("人狼")) {
+        model.addAttribute("result", "人狼側の勝利");
+      } else {
+        model.addAttribute("result", "市民側の勝利");
+      }
+    } else {
+      Userinfo userinfo = userinfoMapper.selectUserinfo(selection);
+      if (userinfo.getRole().equals("人狼")) {
+        model.addAttribute("result", "市民側の勝利");
+      } else {
+        model.addAttribute("result", "人狼側の勝利");
+      }
+    }
+    return "gameresult";
+  }
+
+  @GetMapping("/resume")
+  public String resume(Principal prin, SessionStatus SessionStatus) {
+    userinfoMapper.updateSelectedFalse(prin.getName());
+    userinfoMapper.updateUserInfoNull(prin.getName());
+    rolesMapper.updateUserInfoNull();
+    SessionStatus.setComplete();
+    return "entry";
   }
 }

@@ -14,7 +14,10 @@ public interface RolesMapper {
   @Select("SELECT * FROM roles WHERE use = false")
   ArrayList<Roles> selectGraveyard();
 
-  @Update("UPDATE roles SET use = #{true} WHERE id = #{id}")
+  @Update("UPDATE roles SET use = true WHERE id = #{id}")
   void updateUserInfo(int id);
+
+  @Update("UPDATE roles SET use = false")
+  void updateUserInfoNull();
 
 }
