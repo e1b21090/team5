@@ -5,40 +5,31 @@
   <meta charset="utf-8">
   <title>人狼ゲーム-投票タイム</title>
   <link rel="stylesheet" href="style_k.css">
-  <!--script>
-    window.onload = function () {
-      var sse = new EventSource('/votePhase');
-      sse.onmessage = function (event) {
-        console.log("sse.onmessage");
-        console.log(event.data);
-      }
-    }
-  </script-->
   <script>
-    function saveSelection(){
+    function saveSelection() {
       const selected = document.querySelector('input[name="vote"]:checked').value;
-      window.location.href = "/voteresult?selection=" + selected;
+      window.location.href = "/waitingvoteresult?selection=" + selected;
     }
   </script>
 </head>
 
 <body>
   <div class="backgraund">
-    <div id="explanation">
+    <div id="explanation" style="color: mintcream;">
       <h2>投票タイム</h2>
       <p>吊りたいと思った人物または吊らないのボタンを押してください</p>
       <form id="voteForm" action="/submitVote" method="post">
         <div>
-          <input type="radio" name="vote" value="tsuranai"><label>吊らない</label><br>
+          <input type="radio" name="vote" value="吊らない"><label>吊らない</label><br>
         </div>
         <div th:each="v_target:${v_target}">
-          <input type="radio" name="vote" value=${v_target.getuserName()}><label>[[${v_target.username}]]</label><br>
+          <input type="radio" name="vote" th:value="${v_target.username}" th:id="${'radio_' + v_target.username}">
+          <label th:for="${'radio_' + v_target.username}" th:text="${v_target.username}"></label><br>
         </div>
-        <input type="button" value="送信" onclick="saveSelection()"></form>
+        <input type="button" value="投票" onclick="saveSelection()">
       </form>
     </div>
     <br /><br />
-  </div>
   </div>
 </body>
 
