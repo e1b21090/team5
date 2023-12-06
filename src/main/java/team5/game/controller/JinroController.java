@@ -36,6 +36,12 @@ public class JinroController {
 
   Userinfo thief;
 
+  int voteCount0 = 0;
+  int voteCount1 = 0;
+  int voteCount2 = 0;
+  int voteCount3 = 0;
+  int voteCount4 = 0;
+
   @Autowired
   private UserinfoMapper userinfoMapper;
 
@@ -216,10 +222,21 @@ public class JinroController {
     return "vote";
   }
 
-  @GetMapping("/voteresult")
-  public String voteresult(@RequestParam("selection") String selection, ModelMap model) {
+  @GetMapping("/waitingvoteresult")
+  public String waitingvoteresult(@RequestParam("selection") String selection, ModelMap model, Principal prin) {
+    if (selection.equals("吊らない")) {
+      voteCount0++;
+    } else if (selection.equals("user1")) {
+      voteCount1++;
+    } else if (selection.equals("user2")) {
+      voteCount2++;
+    } else if (selection.equals("user3")) {
+      voteCount3++;
+    } else if (selection.equals("user4")) {
+      voteCount4++;
+    }
     model.addAttribute("selection", selection);
-    return "voteresult";
+    return "waitingvoteresult";
   }
 
 }
