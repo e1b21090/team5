@@ -25,6 +25,9 @@
         console.log(usertable);
         var tobody = document.getElementById("userList");
         tobody.innerHTML = usertable;
+        setTimeout(function () {
+          window.location.href = "/gameresult?selection=" + selection; // リダイレクト先のURL
+        }, 20000);
       }
     }
   </script>

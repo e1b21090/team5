@@ -12,13 +12,13 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-public class ZinrouAuthConfiguration {
+public class JinrouAuthConfiguration {
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
         .authorizeHttpRequests(authz -> authz
-            .requestMatchers(AntPathRequestMatcher.antMatcher("/entry/**"))
+            .requestMatchers(AntPathRequestMatcher.antMatcher("/title/**"))
             .authenticated() // /entry/以下は認証済みであること
             .requestMatchers(AntPathRequestMatcher.antMatcher("/**"))
             .permitAll()) // 上記以外は全員アクセス可能
@@ -45,13 +45,6 @@ public class ZinrouAuthConfiguration {
    */
   @Bean
   public InMemoryUserDetailsManager userDetailsService() {
-
-    // ユーザ名，パスワード，ロールを指定してbuildする
-    // このときパスワードはBCryptでハッシュ化されているため，{bcrypt}とつける
-    // ハッシュ化せずに平文でパスワードを指定する場合は{noop}をつける
-    // ハッシュ化されたパスワードを得るには，この授業のbashターミナルで下記のように末尾にユーザ名とパスワードを指定すると良い(要VPN)
-    // $ sshrun htpasswd -nbBC 10 user1 p@ss
-
     UserDetails user1 = User.withUsername("user1")
         .password("{bcrypt}$2y$10$8PubbmvtsXaoe7uoiV7Ne.dUD5CmX6C2xZ2Jn8ohJ15crmRgSQ2XS").roles("USER").build();
     UserDetails user2 = User.withUsername("user2")
@@ -61,7 +54,7 @@ public class ZinrouAuthConfiguration {
     UserDetails user4 = User.withUsername("user4")
         .password("{bcrypt}$2y$10$8PubbmvtsXaoe7uoiV7Ne.dUD5CmX6C2xZ2Jn8ohJ15crmRgSQ2XS").roles("USER").build();
 
-    // 生成したユーザをImMemoryUserDetailsManagerに渡す（いくつでも良い）
+    // 生成したユーザをImMemoryUserDetailsManagerに渡す
     return new InMemoryUserDetailsManager(user1, user2, user3, user4);
   }
 
