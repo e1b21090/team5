@@ -22,7 +22,6 @@ import team5.game.service.AsyncStandbyRoom;
 import team5.game.service.AsyncCheck;
 import team5.game.service.AsyncKaigi;
 import team5.game.service.AsyncToRoles;
-import team5.game.service.AsyncVote;
 import team5.game.service.AsyncVotePhase;
 import team5.game.service.AsyncVoteFinish;
 
@@ -33,15 +32,18 @@ public class JinroController {
   // 既に生成された数値を格納
   Set<Integer> uniqueNumbers = new HashSet<>();
 
+  // 怪盗が盗む対象
   Userinfo stealTarget;
 
+  // 怪盗
   Userinfo thief;
 
-  int voteCount0 = 0;
-  int voteCount1 = 0;
-  int voteCount2 = 0;
-  int voteCount3 = 0;
-  int voteCount4 = 0;
+  // 各プレイヤーの投票数
+  int voteCount0; // 吊らない
+  int voteCount1; // user1
+  int voteCount2; // user2
+  int voteCount3; // user3
+  int voteCount4; // user4
 
   @Autowired
   private UserinfoMapper userinfoMapper;
@@ -62,24 +64,24 @@ public class JinroController {
   private AsyncToRoles asyncToRoles;
 
   @Autowired
-  private AsyncVote asyncVote;
-
-  @Autowired
   private AsyncVotePhase asyncVotePhase;
 
   @Autowired
   private AsyncVoteFinish asyncVoteFinish;
 
-  @GetMapping("/entry")
-  public String entry() {
-    return "entry";
+  // タイトル画面
+  @GetMapping("/title")
+  public String title() {
+    return "title";
   }
 
+  // ルール画面
   @GetMapping("/rules")
   public String rules() {
     return "rules";
   }
 
+  // 待機画面(非同期)
   @GetMapping("/standbyroom")
   public SseEmitter standbyroom() {
     final SseEmitter emitter = new SseEmitter();
@@ -87,6 +89,7 @@ public class JinroController {
     return emitter;
   }
 
+  // 待機画面
   @GetMapping("/standby")
   public String standby(Principal prin, ModelMap model, SessionStatus SessionStatus) {
     if (!model.containsAttribute("userinfo")) {
@@ -94,16 +97,17 @@ public class JinroController {
       int num = game.drawGame(uniqueNumbers);
       uniqueNumbers.add(num); // 数値の重複を防ぐためSetにランダム生成した値を記憶
 
-      Roles roles = rolesMapper.selectRoles(num);
-      userinfoMapper.updateUserInfo(roles.getName(), prin.getName());
-      Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
-      rolesMapper.updateUserInfo(num);
+      Roles roles = rolesMapper.selectRoles(num); // 役職を取得
+      userinfoMapper.updateUserInfo(roles.getName(), prin.getName()); // DBに役職を登録
+      Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName()); // DBからユーザ情報を取得
+      rolesMapper.updateUserInfo(num); // DBに役職を登録
 
       model.addAttribute("userinfo", userinfo);
     }
     return "standby";
   }
 
+  // 役職確認画面(非同期)
   @GetMapping("/checkcard")
   public SseEmitter checkcard() {
     final SseEmitter emitter = new SseEmitter();
@@ -111,23 +115,28 @@ public class JinroController {
     return emitter;
   }
 
+  // 役職確認画面
   @GetMapping("/check")
   public String check(Principal prin, ModelMap model) {
-    Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
+    Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName()); // DBからユーザ情報を取得
+    // 人狼の場合
     if (userinfo.getRole().equals("人狼")) {
       boolean isJinro = true;
       String jinro = userinfoMapper.selectJinro(prin.getName());
       model.addAttribute("jinro", jinro);
       model.addAttribute("isJinro", isJinro);
     }
+    // 占い師の場合
     if (userinfo.getRole().equals("占い師")) {
       ArrayList<Userinfo> uranai = userinfoMapper.selectTarget(prin.getName());
       model.addAttribute("uranai", uranai);
     }
+    // 怪盗の場合
     if (userinfo.getRole().equals("怪盗")) {
       ArrayList<Userinfo> kaito = userinfoMapper.selectTarget(prin.getName());
       model.addAttribute("kaito", kaito);
     }
+    // 市民の場合
     if (userinfo.getRole().equals("市民")) {
       ArrayList<Userinfo> simin = userinfoMapper.selectTarget(prin.getName());
       model.addAttribute("simin", simin);
@@ -137,6 +146,7 @@ public class JinroController {
     return "check";
   }
 
+  // 夜の画面
   @GetMapping("/game")
   public String game(Principal prin, ModelMap model) {
     Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
@@ -164,20 +174,23 @@ public class JinroController {
     return "game";
   }
 
+  // 夜の画面(占い師)
   @GetMapping("/uranai")
   public String soothsayer(@RequestParam("target") String target, ModelMap model, Principal prin) {
+    // 墓場の場合
     if (target.equals("graveyard")) {
       ArrayList<Roles> graveyard = rolesMapper.selectGraveyard();
       model.addAttribute("graveyard", graveyard);
-    } else {
+    } else { // 墓場以外の場合
       Userinfo predictTarget = userinfoMapper.selectUserinfo(target);
       model.addAttribute("predictTarget", predictTarget);
     }
-    Userinfo soothsayer = userinfoMapper.selectUserinfo(prin.getName());
+    Userinfo soothsayer = userinfoMapper.selectUserinfo(prin.getName()); // DBからユーザ情報を取得
     model.addAttribute("soothsayer", soothsayer);
     return "outcome";
   }
 
+  // 夜の画面(怪盗)
   @GetMapping("/kaito")
   public String thief(@RequestParam("target") String target, ModelMap model, Principal prin) {
     this.stealTarget = userinfoMapper.selectUserinfo(target);
@@ -187,6 +200,7 @@ public class JinroController {
     return "outcome";
   }
 
+  // 夜の画面(非同期)
   @GetMapping("/movekaigi")
   public SseEmitter movekaigi() {
     final SseEmitter emitter = new SseEmitter();
@@ -194,6 +208,7 @@ public class JinroController {
     return emitter;
   }
 
+  // 夜の画面-役職有(非同期)
   @GetMapping("/toRoles")
   public SseEmitter toRoles() {
     final SseEmitter emitter = new SseEmitter();
@@ -201,13 +216,19 @@ public class JinroController {
     return emitter;
   }
 
-  @GetMapping("/toVote")
-  public SseEmitter toVote() {
-    final SseEmitter emitter = new SseEmitter();
-    this.asyncVote.vote(emitter);
-    return emitter;
+  // 昼の画面-投票
+  @GetMapping("/vote")
+  public String vote(Principal prin, ModelMap model) {
+    if (this.stealTarget != null && this.thief.getRole().equals("怪盗")) { // 怪盗が盗んだ場合
+      userinfoMapper.updateUserInfo(stealTarget.getRole(), thief.getUsername());
+      userinfoMapper.updateUserInfo("怪盗", stealTarget.getUsername());
+    }
+    ArrayList<Userinfo> v_target = userinfoMapper.selectTarget(prin.getName()); // 投票対象を取得
+    model.addAttribute("v_target", v_target);
+    return "vote";
   }
 
+  // 昼の画面-投票(非同期)
   @GetMapping("/votePhase")
   public SseEmitter votePhase() {
     final SseEmitter emitter = new SseEmitter();
@@ -215,51 +236,42 @@ public class JinroController {
     return emitter;
   }
 
-  @GetMapping("/vote")
-  public String vote(Principal prin, ModelMap model) {
-    if (this.stealTarget != null && this.thief.getRole().equals("怪盗")) {
-      userinfoMapper.updateUserInfo(stealTarget.getRole(), thief.getUsername());
-      userinfoMapper.updateUserInfo("怪盗", stealTarget.getUsername());
-    }
-    ArrayList<Userinfo> v_target = userinfoMapper.selectTarget(prin.getName());
-    model.addAttribute("v_target", v_target);
-    return "vote";
-  }
-
+  // 昼の画面-投票結果待機
   @GetMapping("/waitingvoteresult")
   public String waitingvoteresult(@RequestParam("selection") String selection, ModelMap model, Principal prin) {
-    if (selection.equals("吊らない")) {
-      voteCount0++;
-    } else if (selection.equals("user1")) {
-      voteCount1++;
-    } else if (selection.equals("user2")) {
-      voteCount2++;
-    } else if (selection.equals("user3")) {
-      voteCount3++;
-    } else if (selection.equals("user4")) {
-      voteCount4++;
+    if (selection.equals("吊らない")) { // 吊らない場合
+      voteCount0++; // 吊らないの投票数をカウント
+    } else if (selection.equals("user1")) { // user1に投票した場合
+      voteCount1++; // user1の投票数をカウント
+    } else if (selection.equals("user2")) { // user2を投票した場合
+      voteCount2++; // user2の投票数をカウント
+    } else if (selection.equals("user3")) { // user3を投票した場合
+      voteCount3++; // user3の投票数をカウント
+    } else if (selection.equals("user4")) { // user4を投票した場合
+      voteCount4++; // user4の投票数をカウント
     }
     model.addAttribute("selection", selection);
-    userinfoMapper.updateSelectedTrue(prin.getName());
+    userinfoMapper.updateSelectedTrue(prin.getName()); // 投票済みに変更
     Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
     model.addAttribute("userinfo", userinfo);
     return "waitingvoteresult";
   }
 
+  // 投票結果画面
   @GetMapping("/voteresult")
   public String voteresult(ModelMap model) {
-    if (voteCount1 > voteCount0 && voteCount1 > voteCount2 && voteCount1 > voteCount3 && voteCount1 > voteCount4) {
+    if (voteCount1 > voteCount0 && voteCount1 > voteCount2 && voteCount1 > voteCount3 && voteCount1 > voteCount4) { // user1を吊る場合
       model.addAttribute("selection", "user1");
     } else if (voteCount2 > voteCount0 && voteCount2 > voteCount1 && voteCount2 > voteCount3
-        && voteCount2 > voteCount4) {
+        && voteCount2 > voteCount4) { // user2を吊る場合
       model.addAttribute("selection", "user2");
     } else if (voteCount3 > voteCount0 && voteCount3 > voteCount1 && voteCount3 > voteCount2
-        && voteCount3 > voteCount4) {
+        && voteCount3 > voteCount4) { // user3を吊る場合
       model.addAttribute("selection", "user3");
     } else if (voteCount4 > voteCount0 && voteCount4 > voteCount1 && voteCount4 > voteCount2
-        && voteCount4 > voteCount3) {
+        && voteCount4 > voteCount3) { // user4を吊る場合
       model.addAttribute("selection", "user4");
-    } else {
+    } else { // 吊らない場合
       model.addAttribute("selection", "吊らない");
     }
     model.addAttribute("count_0", voteCount0);
@@ -270,6 +282,7 @@ public class JinroController {
     return "voteresult";
   }
 
+  // 投票結果画面(非同期)
   @GetMapping("/voteFinish")
   public SseEmitter voteFinish() {
     final SseEmitter emitter = new SseEmitter();
@@ -277,32 +290,40 @@ public class JinroController {
     return emitter;
   }
 
+  // ゲーム結果画面
   @GetMapping("/gameresult")
   public String gameresult(@RequestParam("selection") String selection, ModelMap model) {
-    if (selection.equals("吊らない")) {
-      ArrayList<String> all = userinfoMapper.selectWolf();
-      if (all.contains("人狼")) {
+    if (selection.equals("吊らない")) { // 吊らない場合
+      ArrayList<String> all = userinfoMapper.selectWolf(); // 全員の役職を取得
+      if (all.contains("人狼")) { // 人狼がいる場合
         model.addAttribute("result", "人狼側の勝利");
-      } else {
+      } else { // 人狼がいない場合
         model.addAttribute("result", "市民側の勝利");
       }
-    } else {
-      Userinfo userinfo = userinfoMapper.selectUserinfo(selection);
-      if (userinfo.getRole().equals("人狼")) {
+    } else { // 吊る場合
+      Userinfo userinfo = userinfoMapper.selectUserinfo(selection); // 吊る対象のユーザ情報を取得
+      if (userinfo.getRole().equals("人狼")) { // 人狼を吊った場合
         model.addAttribute("result", "市民側の勝利");
-      } else {
+      } else { // 人狼以外を吊った場合
         model.addAttribute("result", "人狼側の勝利");
       }
     }
     return "gameresult";
   }
 
+  // タイトルに戻る際の処理
   @GetMapping("/resume")
   public String resume(Principal prin, SessionStatus SessionStatus) {
-    userinfoMapper.updateSelectedFalse(prin.getName());
-    userinfoMapper.updateUserInfoNull(prin.getName());
-    rolesMapper.updateUserInfoNull();
-    SessionStatus.setComplete();
-    return "entry";
+    userinfoMapper.updateSelectedFalse(prin.getName()); // 投票済みをリセット
+    userinfoMapper.updateUserInfoNull(prin.getName()); // DBの役職をリセット
+    rolesMapper.updateUserInfoNull(); // DBの役職をリセット
+    SessionStatus.setComplete(); // セッションを破棄
+    uniqueNumbers.clear(); // 重複防止用のSetをリセット
+    voteCount0 = 0;
+    voteCount1 = 0;
+    voteCount2 = 0;
+    voteCount3 = 0;
+    voteCount4 = 0; // 投票数をリセット
+    return "title";
   }
 }

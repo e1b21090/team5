@@ -6,9 +6,9 @@
   <title>ワンナイト人狼</title>
   <link rel="stylesheet" type="text/css" href="styles.css">
   <script>
-    window.onload = function() {
+    window.onload = function () {
       var sse = new EventSource("/date");
-      sse.onmessage = function(event){
+      sse.onmessage = function (event) {
         console.log("sse.onmessage")
         console.log(event.data);
         document.getElementById("date").innerHTML = event.data;
@@ -18,10 +18,12 @@
 </head>
 
 <body>
-  <p id="date"></p>
-  <br/>
+  <div>
+    <h1 id="date" style="color: mintcream;"></h1>
+  </div>
+  <br />
   <div class="centered">
-    <a href="/entry" class="button">ログイン</a>
+    <a href="/title" class="button">ログイン</a>
   </div>
 
 </html>
