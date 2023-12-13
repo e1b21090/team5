@@ -26,4 +26,8 @@ public class BulletinBoardService {
     // すべてのメッセージを取得する
     return new ArrayList<>(messageList);
   }
+
+  public void resetMessages() {
+    messageList.clear();
+  }
 }

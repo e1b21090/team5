@@ -23,6 +23,7 @@ import team5.game.service.AsyncCheck;
 import team5.game.service.AsyncKaigi;
 import team5.game.service.AsyncToRoles;
 import team5.game.service.AsyncVotePhase;
+import team5.game.service.BulletinBoardService;
 import team5.game.service.AsyncVoteFinish;
 
 @Controller
@@ -68,6 +69,9 @@ public class JinroController {
 
   @Autowired
   private AsyncVoteFinish asyncVoteFinish;
+
+  @Autowired
+  private BulletinBoardService bulletinBoardService;
 
   // タイトル画面
   @GetMapping("/title")
@@ -319,6 +323,7 @@ public class JinroController {
     rolesMapper.updateUserInfoNull(); // DBの役職をリセット
     SessionStatus.setComplete(); // セッションを破棄
     uniqueNumbers.clear(); // 重複防止用のSetをリセット
+    bulletinBoardService.resetMessages(); // 掲示板をリセット
     voteCount0 = 0;
     voteCount1 = 0;
     voteCount2 = 0;
