@@ -3,40 +3,92 @@ html {
 }
 
 body {
-  font-family: Yu Gothic Medium, 游ゴシック Medium;
+  font-family: 'Yu Gothic Medium', '游ゴシック Medium', sans-serif;
   color: black;
   background-image: url('ohiru.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
   height: 100%;
+  margin: 0;
+  /* Remove default margin */
 }
 
 #backgraund {
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  /* Adjust background opacity */
+  border-radius: 8px;
+  /* Slightly smaller border radius */
   position: absolute;
-  top: 3%;
+  top: 5%;
+  /* Adjusted top position */
   left: 5%;
-  width: 90%;
-  height: 90%;
+  width: 80%;
+  height: 75%;
+  /* Slightly smaller height */
   text-align: center;
   margin-top: 20px;
-  /* display: flex; */
-  justify-content: center;
-  /* align-items: center; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+#explanation {
+  margin-bottom: 20px;
+}
+
+#countdown {
+  font-size: 2em;
+  margin-top: 10px;
+}
+
+#chat {
+  overflow-y: scroll;
+  width: 100%;
+  /* Occupy full width */
+  flex-grow: 1;
+  /* Allow the chat to grow within the container */
 }
 
 ul {
   list-style-type: none;
+  padding: 0;
+  /* Remove default padding */
 }
 
-/* ul li {
-  text-align: center;
-} */
+li {
+  background-color: rgba(255, 255, 255, 0.9);
+  /* Message background color */
+  border-radius: 5px;
+  margin-bottom: 5px;
+  padding: 8px;
+}
 
-#chat {
-  overflow-y: scroll;
-  width: 80%;
-  height: 100px;
+form {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+input[type="text"] {
+  flex-grow: 1;
+  /* Allow the input to grow within the container */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  margin-left: 10px;
+  padding: 8px 15px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
 }

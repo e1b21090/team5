@@ -1,0 +1,88 @@
+/* Add this CSS to your existing styles */
+body {
+  font-family: 'Yu Gothic Medium', '游ゴシック Medium', sans-serif;
+  color: black;
+  background-image: url('ohiru.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Center the radio button and text */
+input[type="radio"] {
+  display: none;
+}
+
+/* Style the custom radio button container */
+.radio-container {
+  text-align: center;
+}
+
+/* Style the custom radio button */
+input[type="radio"]+label {
+  font-family: 'Open Sans', helvetica, arial, sans-serif;
+  cursor: pointer;
+  display: flex;
+  /* Make it a flex container */
+  align-items: center;
+  /* Center content vertically */
+  position: relative;
+  padding-left: 30px;
+  margin-right: 15px;
+  /* Increase margin for better spacing */
+  font-size: 20px;
+  /* Increase font size for better visibility */
+  color: #555;
+  /* Adjust color for better contrast */
+  user-select: none;
+  /* Disable text selection */
+}
+
+/* Create the custom radio button */
+input[type="radio"]+label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  /* Slightly larger radio button for better visibility */
+  height: 24px;
+  border: 2px solid #4CAF50;
+  border-radius: 50%;
+  background-color: white;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* Style the custom radio button when checked */
+input[type="radio"]:checked+label:before {
+  background-color: #4CAF50;
+  border-color: #4CAF50;
+  content: '\2713';
+  color: white;
+  font-size: 18px;
+  /* Adjust font size for better visibility */
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Style the vote button */
+input[type="button"] {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  /* Increase padding for a larger button */
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 22px;
+  /* Increase font size for better visibility */
+  margin-top: 20px;
+  cursor: pointer;
+}
