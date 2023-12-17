@@ -1,0 +1,17 @@
+SetUp Manual (draft)
+
+bash を起動し，下記の ssh コマンドを入力してサーバへアクセスする
+ssh isdev23@150.89.233.205
+
+cd コマンドでホームディレクトリへ移動する
+cd
+
+git コマンドを入力して github からリポジトリのクローンを行う
+git clone https://github.com/e1b21090/team5.git
+
+作成されたリポジトリへ移動する
+cd team5
+
+ゲームを実行する
+bash ./gradlew bootrun
+
