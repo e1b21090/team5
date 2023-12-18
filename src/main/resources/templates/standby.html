@@ -7,6 +7,10 @@
   <link rel="stylesheet" href="style_s.css">
   <script>
     window.onload = function () {
+      // Play audio when the page is loaded
+      var audio = new Audio('jinrou.mp3');
+      audio.play();
+
       var sse = new EventSource('/standbyroom');
       sse.onmessage = function (event) {
         console.log("sse.onmessage");
@@ -44,8 +48,6 @@
       <br /><br />
     </div>
   </div>
-
-
 </body>
 
 </html>

@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>人狼ゲーム-役職確認</title>
-  <link rel="stylesheet" type="text/css" href="style_g.css">
+  <link rel="stylesheet" type="text/css" href="style_shining.css">
   <script>
     var seconds = 5;
     window.onload = function () {
@@ -30,22 +30,25 @@
 </head>
 
 <body>
-  <div class="vertical-container">
-    <h1><span sec:authentication="name" />さんは[[${userinfo.role}]]です</h1>
-    <div th:if="${isJinro}">
-      <img src='werewolf.JPG' width="310px" height="310px" alt="人狼" />
+
+  <body class="body">
+    <div class="vertical-container">
+      <h1><span sec:authentication="name" />さんは[[${userinfo.role}]]です</h1>
+      <div th:if="${isJinro}" class="glow frame">
+        <img src='werewolf.JPG' width="310px" height="310px" alt="人狼" />
+      </div>
+      <div th:if="${uranai}" class="glow frame">
+        <img src='seer.JPG' width="310px" height="310px" alt="占い師" />
+      </div>
+      <div th:if="${kaito}" class="glow frame">
+        <img src='thief.JPG' width="310px" height="310px" alt="怪盗" />
+      </div>
+      <div th:if="${simin}" class="glow frame">
+        <img src='villager.JPG' width="310px" height="310px" alt="市民" />
+      </div>
+      <div><span id="countdown">5</span>秒後に夜のターンに進みます</div>
     </div>
-    <div th:if="${uranai}">
-      <img src='seer.JPG' width="310px" height="310px" alt="占い師" />
-    </div>
-    <div th:if="${kaito}">
-      <img src='thief.JPG' width="310px" height="310px" alt="怪盗" />
-    </div>
-    <div th:if="${simin}">
-      <img src='villager.JPG' width="310px" height="310px" alt="市民" />
-    </div>
-    <div><span id="countdown">5</span>秒後に夜のターンに進みます</div>
-  </div>
+  </body>
 </body>
 
 </html>
