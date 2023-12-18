@@ -49,6 +49,11 @@ body {
   /* Occupy full width */
   flex-grow: 1;
   /* Allow the chat to grow within the container */
+  text-align: left;
+}
+
+#chat::-webkit-scrollbar {
+  display: none;
 }
 
 ul {
