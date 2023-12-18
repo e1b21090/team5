@@ -10,7 +10,7 @@
       var visitCount = getVisitCount();
 
       if (visitCount === 1) {
-        setRemainingTime(5); // 最初のアクセス時のみ残り時間を180に設定
+        setRemainingTime(200); // 最初のアクセス時のみ残り時間を180に設定
       }
 
       var seconds = getRemainingTime();
@@ -66,13 +66,15 @@
         $.get("/api/kaigi", function (data) {
           var messageList = $("#message-list");
           messageList.empty();
-          $.each(data, function (index, message) {
-            messageList.append("<li>" + message + "</li>");
-          });
+
+          // 逆順でデータを表示
+          for (var i = data.length - 1; i >= 0; i--) {
+            messageList.append("<li>" + data[i] + "</li>");
+          }
         });
       }
 
-      setInterval(updateMessages, 100);
+      setInterval(updateMessages, 30);
     });
   </script>
 </head>
@@ -84,6 +86,10 @@
       <p>3分間話し合いを行ってください</p>
     </div>
     <h2 id="countdown">--:--</h2>
+    <form th:action="@{/post}" method="post" id="post-form">
+      <input type="text" name="message" placeholder="メッセージを入力してください" required />
+      <button type="submit">送信</button>
+    </form>
 
     <div id="chat">
       <ul id="message-list">
@@ -91,10 +97,7 @@
       </ul>
     </div>
 
-    <form th:action="@{/post}" method="post" id="post-form">
-      <input type="text" name="message" placeholder="Type your message" required />
-      <button type="submit">Post</button>
-    </form>
+
   </div>
 </body>
 

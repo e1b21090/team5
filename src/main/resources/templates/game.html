@@ -40,8 +40,9 @@
       <img src='seer.JPG' width="310px" height="310px" alt="占い師" />
       <h3>占い対象</h3>
       <ul>
-        <div th:each="uranai:${uranai}">
-          <li><a th:href="@{/uranai(target=${uranai.username})}" class="button">[[${uranai.username}]]</a></li>
+        <div th:each="uranaiTarget:${uranai}">
+          <li><a th:href="@{/uranai(target=${uranaiTarget.username})}" class="button">[[${uranaiTarget.username}]]</a>
+          </li>
         </div>
         <li><a th:href="@{/uranai(target=graveyard)}" class="button">墓地</a></li>
       </ul>
@@ -49,11 +50,11 @@
     <div th:if="${kaito}">
       <img src='thief.JPG' width="310px" height="310px" alt="怪盗" />
       <h3>役職を盗む対象</h3>
-      <div th:each="kaito:${kaito}">
-        <ul>
-          <li><a th:href="@{/kaito(target=${kaito.username})}" class="button">[[${kaito.username}]]</a></li>
-        </ul>
-      </div>
+      <ul>
+        <div th:each="kaitoTarget:${kaito}">
+          <li><a th:href="@{/kaito(target=${kaitoTarget.username})}" class="button">[[${kaitoTarget.username}]]</a></li>
+        </div>
+      </ul>
     </div>
     <div th:if="${simin}">
       <img src='villager.JPG' width="310px" height="310px" alt="市民" />

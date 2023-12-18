@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>人狼ゲーム-投票タイム</title>
-  <link rel="stylesheet" href="style_k.css">
+  <link rel="stylesheet" href="style_vote.css">
   <script>
     function saveSelection() {
       const selected = document.querySelector('input[name="vote"]:checked').value;
@@ -20,7 +20,8 @@
       <p>吊りたいと思った人物または吊らないのボタンを押してください</p>
       <form id="voteForm" action="/submitVote" method="post">
         <div>
-          <input type="radio" name="vote" value="吊らない"><label>吊らない</label><br>
+          <input type="radio" name="vote" id="vote_not_hang" value="吊らない">
+          <label for="vote_not_hang">吊らない</label><br>
         </div>
         <div th:each="v_target:${v_target}">
           <input type="radio" name="vote" th:value="${v_target.username}" th:id="${'radio_' + v_target.username}">

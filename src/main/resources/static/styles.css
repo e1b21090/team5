@@ -4,25 +4,36 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
   margin: 0;
 }
 
+#date {
+  color: mintcream;
+  margin-bottom: 3px;
+  /* 適宜調整してください */
+}
+
 .centered {
   text-align: center;
+  margin-bottom: 7px;
+  /* 適宜調整してください */
 }
 
 .button {
   display: inline-block;
-  padding: 10px 20px;
+  padding: 8px 16px;
+  /* 適宜調整してください */
   background-color: #70769d;
   color: #ffffff;
   text-decoration: none;
   border: none;
   border-radius: 5px;
-  font-size: 16px;
+  font-size: 14px;
+  /* 適宜調整してください */
 }
 
 .button:hover {
