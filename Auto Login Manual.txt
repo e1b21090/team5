@@ -1,0 +1,3 @@
+login.exe 自動ログインの使い方
+gradle bootrun を実行しサーバ起動後
+別のbashにて，/team5に移動し「./login.exe」を実行する
