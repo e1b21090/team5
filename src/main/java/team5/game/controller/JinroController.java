@@ -296,22 +296,36 @@ public class JinroController {
 
   // ゲーム結果画面
   @GetMapping("/gameresult")
-  public String gameresult(@RequestParam("selection") String selection, ModelMap model) {
+  public String gameresult(@RequestParam("selection") String selection, ModelMap model, Principal prin) {
+    String result = null;
+    ArrayList<String> winner;
     if (selection.equals("吊らない")) { // 吊らない場合
       ArrayList<String> all = userinfoMapper.selectWolf(); // 全員の役職を取得
       if (all.contains("人狼")) { // 人狼がいる場合
         model.addAttribute("result", "人狼側の勝利");
+        result = "人狼側の勝利";
       } else { // 人狼がいない場合
         model.addAttribute("result", "市民側の勝利");
+        result = "市民側の勝利";
       }
     } else { // 吊る場合
       Userinfo userinfo = userinfoMapper.selectUserinfo(selection); // 吊る対象のユーザ情報を取得
       if (userinfo.getRole().equals("人狼")) { // 人狼を吊った場合
         model.addAttribute("result", "市民側の勝利");
+        result = "市民側の勝利";
       } else { // 人狼以外を吊った場合
         model.addAttribute("result", "人狼側の勝利");
+        result = "人狼側の勝利";
       }
     }
+    if (result.equals("人狼側の勝利")) {
+      winner = userinfoMapper.select_Jinro();
+    } else {
+      winner = userinfoMapper.selectNotJinro();
+    }
+    model.addAttribute("winner", winner);
+    Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
+    model.addAttribute("role", userinfo.getRole());
     return "gameresult";
   }
 

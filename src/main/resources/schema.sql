@@ -11,9 +11,9 @@ CREATE TABLE userinfo (
     selected BOOLEAN NOT NULL
 );
 
-CREATE TABLE gamelog{
+//*CREATE TABLE gamelog{
     id IDENTITY,
-    username VARCHAR NOT NULL,
+    name VARCHAR NOT NULL,
     role VARCHAR,
     result VARCHAR
-};
+};*//
