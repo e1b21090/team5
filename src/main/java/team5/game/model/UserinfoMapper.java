@@ -20,6 +20,12 @@ public interface UserinfoMapper {
   @Select("SELECT role FROM userinfo")
   ArrayList<String> selectWolf();
 
+  @Select("SELECT username FROM userinfo WHERE role = '人狼'")
+  ArrayList<String> select_Jinro();
+
+  @Select("SELECT username FROM userinfo WHERE role != '人狼'")
+  ArrayList<String> selectNotJinro();
+
   @Select("SELECT username FROM userinfo WHERE role is not null")
   ArrayList<String> selectNotnullUses();
 

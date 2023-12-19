@@ -9,6 +9,10 @@
 <body>
   <h1>結果</h1>
   <p>[[${result}]]</p>
+  <p th:each="winner:${winner}">
+    <span th:text="${winner}"></span>
+  </p>
+  <p><span sec:authentication="name" />さんの役職は[[${role}]]でした。</p>
   <p><a href=/resume class="button">もどる</a></p>
 </body>
 
