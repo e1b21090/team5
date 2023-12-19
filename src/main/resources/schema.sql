@@ -10,3 +10,10 @@ CREATE TABLE userinfo (
     role VARCHAR,
     selected BOOLEAN NOT NULL
 );
+
+CREATE TABLE gamelog{
+    id IDENTITY,
+    username VARCHAR NOT NULL,
+    role VARCHAR,
+    result VARCHAR
+};
