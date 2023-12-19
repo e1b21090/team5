@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>人狼ゲーム-投票結果待機</title>
+  <link rel="stylesheet" href="style_wait.css">
   <script>
     window.onload = function () {
       var sse = new EventSource('/votePhase');
@@ -36,17 +37,19 @@
 </head>
 
 <body>
+  <div id="backgraund">
   <h1>投票結果待機</h1>
   「[[${selection}]]」を選択しました
   <div id="loginUser">
-    <div id="content">
       <h2>対戦相手を待っています</h2>
+      <div id="content">
       <h3>投票済のユーザ</h3>
       <div>
         <tobody id="userList"></tobody>
       </div>
+      </div>
       <br /><br />
-    </div>
+  </div>
   </div>
 </body>
 
