@@ -1,0 +1,46 @@
+html {
+  font-size: 100%;
+}
+
+body {
+  font-family: 'Yu Gothic Medium', '游ゴシック Medium', sans-serif;
+  color: black;
+  background-image: url('ohiru.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100%;
+  margin: 0;
+  /* Remove default margin */
+}
+
+#backgraund {
+  background: rgba(255, 255, 255, 0.8);
+  /* Adjust background opacity */
+  border-radius: 8px;
+  /* Slightly smaller border radius */
+  position: absolute;
+  top: 5%;
+  /* Adjusted top position */
+  left: 5%;
+  width: 80%;
+  height: 75%;
+  /* Slightly smaller height */
+  text-align: center;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+#content {
+  border: gray 1px solid;
+  padding: 10px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  /* Remove default padding */
+}
