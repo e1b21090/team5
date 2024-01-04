@@ -4,16 +4,27 @@
 <head>
   <meta charset="utf-8">
   <title>人狼ゲーム-結果</title>
+  <link rel="stylesheet" href="style_resultG.css">
 </head>
 
 <body>
-  <h1>結果</h1>
-  <p>[[${result}]]</p>
-  <p th:each="winner:${winner}">
-    <span th:text="${winner}"></span>
-  </p>
-  <p><span sec:authentication="name" />さんの役職は[[${role}]]でした。</p>
-  <p><a href=/resume class="button">もどる</a></p>
+  <div id="backgraund">
+    <h1>結果</h1>
+    <div id="result">
+      <p>[[${result}]]</p>
+    </div>
+    <!-- <p th:each="winner:${winner}">
+      <span th:text="${winner}"></span>
+    </p> -->
+    <!-- <p><span sec:authentication="name" />さんの役職は[[${role}]]でした。</p> -->
+    <div id="userinfo">
+      <div th:each="userinfo:${finalUserinfo}">
+        <p>[[${userinfo.username}]]：[[${userinfo.role}]]</p>
+      </div>
+    </div>
+    <br/>
+    <p><a href=/resume class="button">もどる</a></p>
+  </div>
 </body>
 
 </html>

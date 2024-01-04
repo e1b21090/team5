@@ -13,6 +13,26 @@ body {
   justify-content: center;
 }
 
+#backgraund {
+  background: rgba(255, 255, 255, 0.8);
+  /* Adjust background opacity */
+  border-radius: 8px;
+  /* Slightly smaller border radius */
+  position: absolute;
+  top: 5%;
+  /* Adjusted top position */
+  left: 5%;
+  width: 80%;
+  height: 75%;
+  /* Slightly smaller height */
+  text-align: center;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
 /* Center the radio button and text */
 input[type="radio"] {
   display: none;
