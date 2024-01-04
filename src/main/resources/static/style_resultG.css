@@ -1,0 +1,43 @@
+body {
+  font-family: 'Yu Gothic Medium', '游ゴシック Medium', sans-serif;
+  color: white;
+  background-image: url('bgr.webp');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+#userinfo {
+  border: rgb(177, 175, 175) 1px solid;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  border-top-left-radius: 25px 25px;
+  border-top-right-radius: 25px 25px;
+  border-bottom-left-radius: 25px 25px;
+  border-bottom-right-radius: 25px 25px;
+}
+
+#result {
+  color: red;
+  font-size: 50px;
+}
+
+.button {
+  font-size: 1.05rem;
+  background: #70769d;
+  color: #fff;
+  border-radius: 3px;
+  padding: 13px 18px;
+  justify-content: space-between;
+}
+
+.button:hover {
+  background: #ddd;
+}

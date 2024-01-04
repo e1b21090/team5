@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>人狼ゲーム-投票結果</title>
+  <link rel="stylesheet" href="style_resultV.css">
   <script>
     var selection = "[[${selection}]]";
     window.onload = function () {
@@ -34,17 +35,21 @@
 </head>
 
 <body>
-  <h1>投票結果</h1>
-  <p>「[[${selection}]]」が選択されました</p>
-  <p>吊らない:[[${count_0}]]票</p>
-  <p>user1:[[${count_1}]]票</p>
-  <p>user2:[[${count_2}]]票</p>
-  <p>user3:[[${count_3}]]票</p>
-  <p>user4:[[${count_4}]]票</p>
-  <div>
-    <tobody id="userList"></tobody>
+  <div id="backgraund">
+    <h1>投票結果</h1>
+    <h4>「[[${selection}]]」が選択されました</h4>
+    <div id="vote_num">
+      <p>吊らない:[[${count_0}]]票</p>
+      <p>user1:[[${count_1}]]票</p>
+      <p>user2:[[${count_2}]]票</p>
+      <p>user3:[[${count_3}]]票</p>
+      <p>user4:[[${count_4}]]票</p>
+    </div>
+    <div>
+      <tobody id="userList"></tobody>
+    </div>
+    <br /><br />
   </div>
-  <br /><br />
 </body>
 
 </html>
