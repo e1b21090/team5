@@ -46,8 +46,6 @@ public class JinroController {
   int voteCount3; // user3
   int voteCount4; // user4
 
-  int game_num = 0;
-
   @Autowired
   private UserinfoMapper userinfoMapper;
 
@@ -328,7 +326,7 @@ public class JinroController {
     // model.addAttribute("winner", winner);
     // Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
     // model.addAttribute("role", userinfo.getRole());
-    ArrayList<Userinfo> userinfo = userinfoMapper.select4userinfo(game_num);
+    ArrayList<Userinfo> userinfo = userinfoMapper.selectAlluserinfo();
     model.addAttribute("finalUserinfo", userinfo);
     return "gameresult";
   }
@@ -347,7 +345,6 @@ public class JinroController {
     voteCount2 = 0;
     voteCount3 = 0;
     voteCount4 = 0; // 投票数をリセット
-    game_num += 4;
     return "title";
   }
 }
