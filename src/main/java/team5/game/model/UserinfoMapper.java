@@ -11,8 +11,8 @@ public interface UserinfoMapper {
   @Select("SELECT * FROM userinfo WHERE username = #{username}")
   Userinfo selectUserinfo(String username);
 
-  @Select("SELECT * FROM userinfo WHERE id >= #{num}")
-  ArrayList<Userinfo> select4userinfo(int num);
+  @Select("SELECT * FROM userinfo")
+  ArrayList<Userinfo> selectAlluserinfo();
 
   @Select("SELECT username FROM userinfo WHERE username != #{username} AND role = '人狼'")
   String selectJinro(String username);
