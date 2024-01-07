@@ -90,6 +90,12 @@ public class JinroController {
     return "rules";
   }
 
+  // ゲームログ画面
+  @GetMapping("/gamelog")
+  public String gamelog() {
+    return "gamelog";
+  }
+
   // 待機画面(非同期)
   @GetMapping("/standbyroom")
   public SseEmitter standbyroom() {
@@ -324,14 +330,14 @@ public class JinroController {
       }
     }
     // if (result.equals("人狼側の勝利")) {
-    //   winner = userinfoMapper.select_Jinro();
+    // winner = userinfoMapper.select_Jinro();
     // } else {
-    //   winner = userinfoMapper.selectNotJinro();
+    // winner = userinfoMapper.selectNotJinro();
     // }
     // model.addAttribute("winner", winner);
     // Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
     // model.addAttribute("role", userinfo.getRole());
-    if (prin.getName().equals("user1")){
+    if (prin.getName().equals("user1")) {
       Gamelog gamelog = new Gamelog();
       gamelog.setName1(userinfoMapper.selectUserinfo("user1").getUsername());
       gamelog.setRole1(userinfoMapper.selectUserinfo("user1").getRole());
