@@ -25,6 +25,8 @@ import team5.game.service.AsyncToRoles;
 import team5.game.service.AsyncVotePhase;
 import team5.game.service.BulletinBoardService;
 import team5.game.service.AsyncVoteFinish;
+import team5.game.model.Gamelog;
+import team5.game.model.GamelogMapper;
 
 @Controller
 @SessionAttributes("userinfo")
@@ -72,6 +74,9 @@ public class JinroController {
 
   @Autowired
   private BulletinBoardService bulletinBoardService;
+
+  @Autowired
+  private GamelogMapper gamelogMapper;
 
   // タイトル画面
   @GetMapping("/title")
@@ -326,6 +331,19 @@ public class JinroController {
     // model.addAttribute("winner", winner);
     // Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
     // model.addAttribute("role", userinfo.getRole());
+    if (prin.getName().equals("user1")){
+      Gamelog gamelog = new Gamelog();
+      gamelog.setName1(userinfoMapper.selectUserinfo("user1").getUsername());
+      gamelog.setRole1(userinfoMapper.selectUserinfo("user1").getRole());
+      gamelog.setName2(userinfoMapper.selectUserinfo("user2").getUsername());
+      gamelog.setRole2(userinfoMapper.selectUserinfo("user2").getRole());
+      gamelog.setName3(userinfoMapper.selectUserinfo("user3").getUsername());
+      gamelog.setRole3(userinfoMapper.selectUserinfo("user3").getRole());
+      gamelog.setName4(userinfoMapper.selectUserinfo("user4").getUsername());
+      gamelog.setRole4(userinfoMapper.selectUserinfo("user4").getRole());
+      gamelog.setResult(result);
+      gamelogMapper.insertGamelog(gamelog);
+    }
     ArrayList<Userinfo> userinfo = userinfoMapper.selectAlluserinfo();
     model.addAttribute("finalUserinfo", userinfo);
     return "gameresult";
