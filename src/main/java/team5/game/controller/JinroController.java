@@ -92,7 +92,9 @@ public class JinroController {
 
   // ゲームログ画面
   @GetMapping("/gamelog")
-  public String gamelog() {
+  public String gamelog(ModelMap model) {
+    ArrayList<Gamelog> gamelog = gamelogMapper.selectGamelog();
+    model.addAttribute("gamelog", gamelog);
     return "gamelog";
   }
 
@@ -329,14 +331,7 @@ public class JinroController {
         result = "人狼側の勝利";
       }
     }
-    // if (result.equals("人狼側の勝利")) {
-    // winner = userinfoMapper.select_Jinro();
-    // } else {
-    // winner = userinfoMapper.selectNotJinro();
-    // }
-    // model.addAttribute("winner", winner);
-    // Userinfo userinfo = userinfoMapper.selectUserinfo(prin.getName());
-    // model.addAttribute("role", userinfo.getRole());
+
     if (prin.getName().equals("user1")) {
       Gamelog gamelog = new Gamelog();
       gamelog.setName1(userinfoMapper.selectUserinfo("user1").getUsername());
