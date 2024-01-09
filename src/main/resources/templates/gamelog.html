@@ -8,7 +8,7 @@
 
 <body>
 
-  <table th:each="gamelog:${gamelog}">
+  <table border="1">
     <tr>
       <th>PLAYER1</th>
       <th>PLAYER1:役職</th>
@@ -20,6 +20,20 @@
       <th>PLAYER4:役職</th>
       <th>試合結果</th>
     </tr>
+
+    <div th:each="gamelog:${gamelog}">
+      <tr>
+        <th>[[${gamelog.name1}]]</th>
+        <th>[[${gamelog.role1}]]</th>
+        <th>[[${gamelog.name2}]]</th>
+        <th>[[${gamelog.role2}]]</th>
+        <th>[[${gamelog.name3}]]</th>
+        <th>[[${gamelog.role3}]]</th>
+        <th>[[${gamelog.name4}]]</th>
+        <th>[[${gamelog.role4}]]</th>
+        <th>[[${gamelog.result}]]</th>
+      </tr>
+    </div>
 
 
   </table>
