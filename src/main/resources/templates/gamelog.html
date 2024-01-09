@@ -4,55 +4,55 @@
 <head>
   <meta charset="utf-8">
   <title>人狼ゲーム・ゲームログ</title>
-
+  <link rel="stylesheet" href="style_log.css">
 </head>
 
 <body>
+  <div id="backgraund">
+    <h2>ゲーム履歴</h2>
 
-  <h2>ゲーム履歴</h2>
-
-  <table border="1" width="70%" align="center">
-    <tr>
-      <th>PLAYER1</th>
-      <th>PLAYER1:役職</th>
-      <th>PLAYER2</th>
-      <th>PLAYER2:役職</th>
-      <th>PLAYER3</th>
-      <th>PLAYER3:役職</th>
-      <th>PLAYER4</th>
-      <th>PLAYER4:役職</th>
-      <th>試合結果</th>
-    </tr>
-
-    <div th:each="gamelog:${gamelog}">
+    <table border="1" width="70%" align="center">
       <tr>
-        <th>[[${gamelog.name1}]]</th>
-        <th>[[${gamelog.role1}]]</th>
-        <th>[[${gamelog.name2}]]</th>
-        <th>[[${gamelog.role2}]]</th>
-        <th>[[${gamelog.name3}]]</th>
-        <th>[[${gamelog.role3}]]</th>
-        <th>[[${gamelog.name4}]]</th>
-        <th>[[${gamelog.role4}]]</th>
-        <th>[[${gamelog.result}]]</th>
+        <th>PLAYER1</th>
+        <th>PLAYER1:役職</th>
+        <th>PLAYER2</th>
+        <th>PLAYER2:役職</th>
+        <th>PLAYER3</th>
+        <th>PLAYER3:役職</th>
+        <th>PLAYER4</th>
+        <th>PLAYER4:役職</th>
+        <th>試合結果</th>
       </tr>
-    </div>
+
+      <div th:each="gamelog:${gamelog}">
+        <tr>
+          <th>[[${gamelog.name1}]]</th>
+          <th>[[${gamelog.role1}]]</th>
+          <th>[[${gamelog.name2}]]</th>
+          <th>[[${gamelog.role2}]]</th>
+          <th>[[${gamelog.name3}]]</th>
+          <th>[[${gamelog.role3}]]</th>
+          <th>[[${gamelog.name4}]]</th>
+          <th>[[${gamelog.role4}]]</th>
+          <th>[[${gamelog.result}]]</th>
+        </tr>
+      </div>
 
 
-  </table>
+    </table>
 
-  <p>上から順に最新の5ゲームが表示されています</p>
-  <p>ゲーム終了時の役職が記録されています</p>
-
-
-
-  <br />
-  <a href=/title class="button">もどる</a>
-  <br>
-  </main>
-  <br>
+    <p>上から順に最新の5ゲームが表示されています</p>
+    <p>ゲーム終了時の役職が記録されています</p>
 
 
+
+    <br />
+    <p><a href=/title class="button">もどる</a></p>
+    <br>
+    </main>
+    <br>
+
+  </div>
 </body>
 
 </html>
