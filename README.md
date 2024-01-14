@@ -42,7 +42,7 @@
 
 ## 4. 市民
 
-<img src="https://github.com/e1b21090/team5/blob/main/src/main/resources/static/thief.JPG?raw=true" width="300">
+<img src="https://github.com/e1b21090/team5/blob/main/src/main/resources/static/villager.JPG?raw=true" width="300">
 
 - 役職としての特別な操作は特にない。他のプレイヤーの中に人狼が潜んでいる場合は頑張って見つけ出そう。
 
