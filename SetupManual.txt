@@ -1,20 +1,36 @@
 SetupManual
 
-bash を起動し，下記の ssh コマンドを入力してサーバへアクセスする
-ssh isdev23@150.89.233.205
+isdev-bash-......-64.exeを起動してください
+起動後、下記の ssh コマンドを入力してサーバへアクセスする
 
-パスワードを入力する
+$ssh isdev23@150.89.233.205
+//@の後ろに続く150.89.233.205がアプリケーションのIPアドレスです
+
+パスワードを入力する(パスワードは表示されません)
 isDev23?205
 
 cd コマンドでホームディレクトリへ移動する
-cd
+$cd
+
+pwdコマンドを入力する。
+$pwd
+
+/home/isdev23 にいることが確認できれば以下のコマンドを入力する
 
 git コマンドを入力して github からリポジトリのクローンを行う
-git clone https://github.com/e1b21090/team5.git
+$git clone https://github.com/e1b21090/team5.git
+
+既に isdev23 下に team5 が存在する場合は、以下のコマンドを入力してから再度github からリポジトリのクローンを行ってください
+$rm -rf team5
 
 作成されたリポジトリへ移動する
-cd team5
+$cd team5
+
+Webサーバを起動する
+$bash ./gradlew
 
 ゲームを実行する
-bash ./gradlew bootrun
+$bash ./gradlew bootrun
 
+実行後、
+http://150.89.233.205.8080/ にブラウザでアクセスしてください

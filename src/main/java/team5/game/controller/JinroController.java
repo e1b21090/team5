@@ -311,7 +311,6 @@ public class JinroController {
   @GetMapping("/gameresult")
   public String gameresult(@RequestParam("selection") String selection, ModelMap model, Principal prin) {
     String result = null;
-    ArrayList<String> winner;
     if (selection.equals("吊らない")) { // 吊らない場合
       ArrayList<String> all = userinfoMapper.selectWolf(); // 全員の役職を取得
       if (all.contains("人狼")) { // 人狼がいる場合
